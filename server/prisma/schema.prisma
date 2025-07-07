@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+// 若改用 PostgreSQL，改成：provider = "postgresql"
+
+model Spot {
+  id          Int         @id @default(autoincrement())
+  name        String      @unique
+  lat         Float
+  lng         Float
+  description String
+  image       String?
+  classrooms  Classroom[]
+
+  @@index([name])
+}
+
+model Classroom {
+  id      Int    @id @default(autoincrement())
+  name    String
+  spot    Spot   @relation(fields: [spotId], references: [id])
+  spotId  Int
+
+  @@index([name])
+}

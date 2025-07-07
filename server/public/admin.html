@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>景點後台</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 700px;
+      margin: 3em auto;
+      background: #fff;
+      padding: 2em;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1em;
+      color: #111;
+    }
+    input, textarea {
+      display: block;
+      width: 100%;
+      margin-top: 1em;
+      padding: 0.5em;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 1.5em;
+      padding: 0.6em 1.2em;
+      border: none;
+      background-color: #4f46e5;
+      color: white;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3730a3;
+    }
+    #spotList > div {
+      border: 1px solid #ccc;
+      padding: 1em;
+      margin-top: 1em;
+      border-radius: 10px;
+      background: #fff;
+    }
+    #spotList img {
+      width: 100px;
+      border-radius: 8px;
+      margin-top: 0.5em;
+    }
+    #spotList button {
+      margin-right: 1em;
+      margin-top: 0.5em;
+    }
+    .dropzone {
+      margin-top: 1em;
+      border: 2px dashed #ccc;
+      padding: 1em;
+      border-radius: 8px;
+      text-align: center;
+      color: #999;
+    }
+    .dropzone.dragover {
+      background-color: #f0f8ff;
+      border-color: #4f46e5;
+      color: #4f46e5;
+    }
+    #previewImage {
+      margin-top: 1em;
+      max-width: 100%;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>新增 / 編輯景點</h1>
+    <form id="spotForm">
+      <input type="text" id="name" placeholder="景點名稱" required />
+      <input type="number" id="lat" placeholder="緯度" required step="any" />
+      <input type="number" id="lng" placeholder="經度" required step="any" />
+      <textarea id="desc" placeholder="簡介" rows="3"></textarea>
+      <div id="classroom-wrapper">
+        <label>教室</label>
+        <div class="classroom-field">
+          <input type="text" name="classrooms" placeholder="請輸入教室名稱" />
+        </div>
+      </div>
+      <button type="button" onclick="addClassroomField()">新增教室</button>
+
+      <div id="dropzone" class="dropzone">拖拉圖片到此處，或點擊以下欄位選擇圖片</div>
+      <input type="file" id="image" accept="image/*" style="display:none" />
+      <img id="previewImage" style="display:none" />
+
+      <button type="submit">送出</button>
+    </form>
+    <div id="spotList" style="margin-top: 3em;"></div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:8888';
+    const spotList = document.getElementById('spotList');
+    let isEditing = false;
+    let editingName = null;
+
+    async function loadSpots() {
+      const res = await fetch(`${API_BASE}/spots`);
+      const spots = await res.json();
+      window._spotCache = spots;
+
+      spotList.innerHTML = spots.map(s => `
+        <div>
+          <h3>${s.name}</h3>
+          ${s.image ? `<img src="${API_BASE}/images/spots/${s.image}" alt="${s.name}" onerror="this.style.display='none'"/>` : ''}
+          <p>緯度：${s.lat}, 經度：${s.lng}</p>
+          <p>${s.description}</p>
+          <p>教室：${s.classrooms.map(c => c.name).join(', ')}</p>
+          <button onclick="fillFormFromId('${s.name.replace(/'/g, "\\'")}')">修改</button>
+          <button onclick="deleteSpot('${encodeURIComponent(s.name)}')">刪除</button>
+        </div>
+      `).join('');
+    }
+
+    function fillFormFromId(name) {
+      const spot = window._spotCache.find(s => s.name === name);
+      if (!spot) return alert('找不到該景點');
+      isEditing = true;
+      editingName = spot.name;
+      document.getElementById('name').value = spot.name;
+      document.getElementById('lat').value = spot.lat;
+      document.getElementById('lng').value = spot.lng;
+      document.getElementById('desc').value = spot.description;
+      const wrapper = document.getElementById('classroom-wrapper');
+      wrapper.innerHTML = '<label>教室</label>';
+      (spot.classrooms.length > 0 ? spot.classrooms : [{}]).forEach(c => {
+        const field = document.createElement('div');
+        field.className = 'classroom-field';
+        field.innerHTML = `<input type="text" name="classrooms" placeholder="請輸入教室名稱" value="${c.name || ''}" />`;
+        wrapper.appendChild(field);
+      });
+      window.scrollTo(0, 0);
+    }
+
+    async function deleteSpot(name) {
+      if (!confirm(`確認刪除 ${decodeURIComponent(name)} 嗎？`)) return;
+      const res = await fetch(`${API_BASE}/spots/${name}`, { method: 'DELETE' });
+      alert(await res.text());
+      loadSpots();
+    }
+
+    document.getElementById('spotForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append('name', document.getElementById('name').value);
+      formData.append('lat', document.getElementById('lat').value);
+      formData.append('lng', document.getElementById('lng').value);
+      formData.append('description', document.getElementById('desc').value);
+      document.querySelectorAll('input[name="classrooms"]').forEach(input => {
+        if (input.value.trim()) formData.append('classrooms', input.value.trim());
+      });
+      const image = document.getElementById('image').files[0];
+      if (image) formData.append('image', image);
+      const url = isEditing ? `${API_BASE}/spots/update` : `${API_BASE}/spots/upload`;
+      const res = await fetch(url, { method: 'POST', body: formData });
+      alert(await res.text());
+      isEditing = false;
+      editingName = null;
+      document.getElementById('spotForm').reset();
+      document.getElementById('previewImage').style.display = 'none';
+      loadSpots();
+    });
+
+    function addClassroomField() {
+      const wrapper = document.getElementById('classroom-wrapper');
+      const field = document.createElement('div');
+      field.className = 'classroom-field';
+      field.innerHTML = '<input type="text" name="classrooms" placeholder="請輸入教室名稱" />';
+      wrapper.appendChild(field);
+    }
+
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('image');
+    const previewImage = document.getElementById('previewImage');
+
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        showPreview(fileInput.files[0]);
+      }
+    });
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length) showPreview(fileInput.files[0]);
+    });
+    function showPreview(file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImage.src = e.target.result;
+        previewImage.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    loadSpots();
+  </script>
+</body>
+</html>
