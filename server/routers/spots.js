@@ -1,11 +1,10 @@
 const express = require('express');
-const { PrismaClient } = require('@prisma/client');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+const prisma = require('../prisma/prismaClient')
 
 const router = express.Router();
-const prisma = new PrismaClient();
 
 // 搜尋 Spot
 router.get('/search-by-building', async (req, res) => {
@@ -91,6 +90,7 @@ const storage = multer.diskStorage({
     cb(null, name);
   },
 });
+
 const upload = multer({ storage });
 
 // 新增 Spot
@@ -188,8 +188,5 @@ router.post('/update', upload.single('image'), async (req, res) => {
     res.status(500).json({ error: '更新失敗', detail: err.message });
   }
 });
-
-
-
 
 module.exports = router;

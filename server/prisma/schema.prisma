@@ -9,7 +9,7 @@ datasource db {
 // 若改用 PostgreSQL，改成：provider = "postgresql"
 
 model Spot {
-  id          Int         @id @default(autoincrement())
+  id          String         @id @unique @default(uuid())
   name        String      @unique
   lat         Float
   lng         Float
@@ -21,10 +21,10 @@ model Spot {
 }
 
 model Classroom {
-  id      Int    @id @default(autoincrement())
+  id      String    @id @unique @default(uuid())
   name    String
   spot    Spot   @relation(fields: [spotId], references: [id])
-  spotId  Int
+  spotId  String
 
   @@index([name])
 }
