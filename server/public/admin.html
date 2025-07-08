@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>景點後台</title>
+  <title>Spot 後台</title>
   <style>
     body {
       margin: 0;
@@ -12,12 +12,16 @@
       overflow-x: hidden;
     }
     .container {
-      max-width: 700px;
+      /* max-width: 900px; */
+      width: 40%;
       margin: 3em auto;
       background: #fff;
       padding: 2em;
       border-radius: 12px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      /* 調整容器高度 */
+      height: auto;
+      min-height: 1000px;
     }
     h1 {
       text-align: center;
@@ -31,6 +35,7 @@
       padding: 0.5em;
       border: 1px solid #ccc;
       border-radius: 8px;
+      font-size: 1.1em;
     }
     button {
       margin-top: 1.5em;
@@ -39,7 +44,7 @@
       background-color: #4f46e5;
       color: white;
       border-radius: 8px;
-      font-size: 1em;
+      font-size: 1.1em;
       cursor: pointer;
     }
     button:hover {
@@ -64,7 +69,8 @@
     .dropzone {
       margin-top: 1em;
       border: 2px dashed #ccc;
-      padding: 1em;
+      padding: 3em 1em;
+      min-height: 150px;
       border-radius: 8px;
       text-align: center;
       color: #999;
@@ -82,6 +88,7 @@
   </style>
 </head>
 <body>
+  <!-- 整體內容容器 -->
   <div class="container">
     <h1>新增 / 編輯景點</h1>
     <form id="spotForm">
@@ -89,6 +96,7 @@
       <input type="number" id="lat" placeholder="緯度" required step="any" />
       <input type="number" id="lng" placeholder="經度" required step="any" />
       <textarea id="desc" placeholder="簡介" rows="3"></textarea>
+      <!-- 教室欄位容器 -->
       <div id="classroom-wrapper">
         <label>教室</label>
         <div class="classroom-field">
@@ -97,12 +105,15 @@
       </div>
       <button type="button" onclick="addClassroomField()">新增教室</button>
 
+      <!-- 圖片上傳區 -->
       <div id="dropzone" class="dropzone">拖拉圖片到此處，或點擊以下欄位選擇圖片</div>
       <input type="file" id="image" accept="image/*" style="display:none" />
+      <!-- 圖片預覽 -->
       <img id="previewImage" style="display:none" />
 
       <button type="submit">送出</button>
     </form>
+    <!-- 景點列表 -->
     <div id="spotList" style="margin-top: 3em;"></div>
   </div>
 
@@ -128,6 +139,7 @@
           <button onclick="deleteSpot('${encodeURIComponent(s.name)}')">刪除</button>
         </div>
       `).join('');
+      if (!isEditing) document.getElementById('name').readOnly = false;
     }
 
     function fillFormFromId(name) {
@@ -136,6 +148,7 @@
       isEditing = true;
       editingName = spot.name;
       document.getElementById('name').value = spot.name;
+      document.getElementById('name').readOnly = true;
       document.getElementById('lat').value = spot.lat;
       document.getElementById('lng').value = spot.lng;
       document.getElementById('desc').value = spot.description;
@@ -175,6 +188,7 @@
       isEditing = false;
       editingName = null;
       document.getElementById('spotForm').reset();
+      document.getElementById('name').readOnly = false;
       document.getElementById('previewImage').style.display = 'none';
       loadSpots();
     });
@@ -217,6 +231,7 @@
       reader.readAsDataURL(file);
     }
 
+    document.getElementById('name').readOnly = false;
     loadSpots();
   </script>
 </body>
