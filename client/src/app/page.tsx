@@ -21,11 +21,11 @@ const Home = () => {
 				}`}
 			>
 				{!focused && searchValue == '' && (
-					<p className='pi pi-search text-xl fixed left-2.5'></p>
+					<p className='text-black pi pi-search text-xl fixed left-2.5'></p>
 				)}
 				<Search
 					className='w-full'
-					inputClassName='w-full p-3 text-lg rounded-full'
+					inputClassName='caret-black text-black w-full p-3 text-lg rounded-full'
                     panelClassName='bg-white rounded-full'
 					searchValue={searchValue}
 					setSearchValue={setSearchValue}

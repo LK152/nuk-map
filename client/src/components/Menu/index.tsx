@@ -50,19 +50,19 @@ const Menu = ({
 				}`}
 			>
 				<div className='flex items-center mt-[100px]'>
-					<p className='text-sm p-1'>顯示裝置藝術</p>
+					<p className='text-black text-sm p-1'>顯示裝置藝術</p>
 					<Switch
 						checked={architectSW}
 						onChange={toggleArchitectSW}
 					/>
 				</div>
 				<div className='flex items-center my-5'>
-					<p className='text-sm whitespace-nowrap p-1'>
+					<p className='text-black text-sm whitespace-nowrap p-1'>
 						搜尋教室
 					</p>
 					<Search
-						className='border-2 rounded mx-2'
-						inputClassName='w-[120px] p-1 text-lg'
+						className='border-2 border-black rounded mx-2'
+						inputClassName='caret-black text-black w-[120px] p-1 text-lg'
 						searchValue={classroom}
 						setSearchValue={setClassroom}
 					/>
