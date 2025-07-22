@@ -19,7 +19,7 @@ const Menu = ({
 		<>
 			<div
 				onClick={toggleClick}
-				className={`fixed top-8 right-8 w-14 h-14 rounded-full bg-white z-[1001] flex flex-col items-center justify-center cursor-pointer menuButton ${
+				className={`fixed top-6 right-6 w-14 h-14 rounded-full bg-white z-[1001] flex flex-col items-center justify-center cursor-pointer menuButton ${
 					menuOpen ? 'opacity-100' : 'opacity-50'
 				}`}
 			>
