@@ -1,6 +1,9 @@
 import './menu.css';
 import { useState } from 'react';
 import Switch from 'react-switch';
+import Search from '../Search';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 
 const Menu = ({
 	architectSW,
@@ -10,6 +13,8 @@ const Menu = ({
 	toggleArchitectSW: () => void;
 }) => {
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
+	const [classroom, setClassroom] = useState<string>('');
+	const [aboutDialog, setAboutDialog] = useState<boolean>(false);
 
 	const toggleClick = () => {
 		setMenuOpen(!menuOpen);
@@ -40,7 +45,7 @@ const Menu = ({
 				></div>
 			</div>
 			<div
-				className={`fixed flex items-center flex-col bg-white top-0 right-0 w-[200px] h-[100vh] z-[1000] opacity-80 ${
+				className={`fixed flex items-center flex-col bg-white top-0 right-0 w-[300px] h-[100vh] z-[1000] opacity-80 ${
 					menuOpen ? 'sidebarClicked' : 'sidebar'
 				}`}
 			>
@@ -50,6 +55,44 @@ const Menu = ({
 						checked={architectSW}
 						onChange={toggleArchitectSW}
 					/>
+				</div>
+				<div className='flex items-center my-5'>
+					<span className='text-sm whitespace-nowrap p-1'>
+						搜尋教室
+					</span>
+					<Search
+						className='border-2 rounded mx-2'
+						inputClassName='w-[120px] p-1 text-lg'
+						searchValue={classroom}
+						setSearchValue={setClassroom}
+					/>
+				</div>
+				<div className='absolute bottom-10'>
+					<Button
+						label='關於我們'
+						onClick={() => setAboutDialog(true)}
+					/>
+					<Dialog
+						header='關於我們'
+                        className='w-[50%] bg-white rounded p-8'
+						visible={aboutDialog}
+						onHide={() => {
+							if (!aboutDialog) return;
+							setAboutDialog(false);
+						}}
+					>
+						<p className='m-0'>
+							Lorem ipsum dolor sit amet, consectetur adipiscing
+							elit, sed do eiusmod tempor incididunt ut labore et
+							dolore magna aliqua. Ut enim ad minim veniam, quis
+							nostrud exercitation ullamco laboris nisi ut aliquip
+							ex ea commodo consequat. Duis aute irure dolor in
+							reprehenderit in voluptate velit esse cillum dolore
+							eu fugiat nulla pariatur. Excepteur sint occaecat
+							cupidatat non proident, sunt in culpa qui officia
+							deserunt mollit anim id est laborum.
+						</p>
+					</Dialog>
 				</div>
 			</div>
 		</>
