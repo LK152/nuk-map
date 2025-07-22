@@ -1,0 +1,38 @@
+.menuButton {
+	transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.menuButton:hover {
+	opacity: 1;
+	transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.menu {
+	transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+	opacity: 1;
+}
+
+.menuClicked1 {
+	transform: translateY(10px) rotateZ(45deg);
+	transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.menuClicked2 {
+	opacity: 0;
+	transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.menuClicked3 {
+	transform: translateY(-10px) rotateZ(-45deg);
+	transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.sidebar {
+	transform: translateX(200px);
+	transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.sidebarClicked {
+	transform: translateX(0px);
+	transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
