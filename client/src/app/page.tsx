@@ -21,7 +21,7 @@ const Home = () => {
 				}`}
 			>
 				{!focused && searchValue == '' && (
-					<span className='pi pi-search text-xl fixed left-2.5'></span>
+					<p className='pi pi-search text-xl fixed left-2.5'></p>
 				)}
 				<Search
 					className='w-full'
