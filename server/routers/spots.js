@@ -189,4 +189,30 @@ router.post('/update', upload.single('image'), async (req, res) => {
   }
 });
 
+// 取得單一 Spot(名字要對)
+router.get('/:name', async (req, res) => {
+  const name = decodeURIComponent(req.params.name);
+  console.log('---GET SPOT BY NAME DEBUG---');
+  console.log('req.params.name:', req.params.name);
+  console.log('Decoded name:', name);
+
+  try {
+    const spot = await prisma.spot.findUnique({
+      where: { name },
+      include: { classrooms: true }
+    });
+
+    if (!spot) {
+      console.log('Spot not found');
+      return res.status(404).json({ error: '找不到該景點' });
+    }
+
+    console.log('Spot found:', spot);
+    res.status(200).json(spot);
+  } catch (err) {
+    console.error('讀取單一景點失敗:', err);
+    res.status(500).json({ error: '讀取失敗', detail: err.message });
+  }
+});
+
 module.exports = router;
