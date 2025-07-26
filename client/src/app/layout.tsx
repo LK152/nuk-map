@@ -26,6 +26,14 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
+			<head>
+				<link
+					rel='preload'
+					as='image'
+                    fetchPriority='high'
+					href='https://api.maptiler.com/maps/basic-v2/16/54664/28515.png?key=eogDeLZuq3Kl0LRIL5JD'
+				/>
+			</head>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>

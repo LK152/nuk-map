@@ -50,13 +50,6 @@ const Menu = ({
 				}`}
 			>
 				<div className='flex items-center mt-[100px]'>
-					<p className='text-black text-sm p-1'>顯示裝置藝術</p>
-					<Switch
-						checked={architectSW}
-						onChange={toggleArchitectSW}
-					/>
-				</div>
-				<div className='flex items-center my-5'>
 					<p className='text-black text-sm whitespace-nowrap p-1'>
 						搜尋教室
 					</p>
@@ -67,6 +60,13 @@ const Menu = ({
 						setSearchValue={setClassroom}
 					/>
 				</div>
+				<div className='flex items-center my-5'>
+					<p className='text-black text-sm p-1'>顯示裝置藝術</p>
+					<Switch
+						checked={architectSW}
+						onChange={toggleArchitectSW}
+					/>
+				</div>
 				<div className='absolute bottom-10'>
 					<Button
 						label='關於我們'
@@ -74,7 +74,7 @@ const Menu = ({
 					/>
 					<Dialog
 						header='關於我們'
-                        className='w-[50%] bg-white rounded p-8'
+						className='w-[50%] bg-white rounded p-8'
 						visible={aboutDialog}
 						onHide={() => {
 							if (!aboutDialog) return;
