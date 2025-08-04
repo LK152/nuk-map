@@ -274,7 +274,8 @@ const locations: locationsType[] = [
 		type: 'building',
 	},
 	{
-		name: '工院綜合大樓',
+		// name: '工院綜合大樓',
+		name: '工學院',
 		coord: [22.731905894048207, 120.2766975978638],
 		icon: eng,
 		type: 'building',

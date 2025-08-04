@@ -1,9 +1,9 @@
 import './menu.css';
 import { useState } from 'react';
 import Switch from 'react-switch';
-import Search from '../Search';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import ClassroomAutocomplete from '../ClassroomAutocomplete';
 
 const Menu = ({
 	architectSW,
@@ -53,12 +53,7 @@ const Menu = ({
 					<p className='text-black text-sm whitespace-nowrap p-1'>
 						搜尋教室
 					</p>
-					<Search
-						className='border-2 border-black rounded mx-2'
-						inputClassName='caret-black text-black w-[120px] p-1 text-lg'
-						searchValue={classroom}
-						setSearchValue={setClassroom}
-					/>
+                    <ClassroomAutocomplete />
 				</div>
 				<div className='flex items-center my-5'>
 					<p className='text-black text-sm p-1'>顯示裝置藝術</p>
