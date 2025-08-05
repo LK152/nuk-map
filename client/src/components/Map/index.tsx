@@ -81,6 +81,16 @@ const Map = () => {
 		console.log(dest);
 	};
 
+	const rmDest = (coord: LatLngTuple) => {
+		setDest((prev) =>
+			prev.filter((d) => d[0] !== coord[0] || d[1] !== coord[1])
+		);
+	};
+
+	const coordExists = (arr: LatLngTuple[], target: LatLngTuple): boolean => {
+		return arr.some(([lat, lng]) => lat === target[0] && lng === target[1]);
+	};
+
 	const JumpTo = (spot: spotDataType | null) => {
 		if (!spot) return;
 		const marker = markerRefs.current[spot.name];
@@ -110,39 +120,73 @@ const Map = () => {
 					attribution='&copy; MapTiler & OpenStreetMap contributors'
 					url='https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=eogDeLZuq3Kl0LRIL5JD'
 				/>
-				{ubikeData?.map(
-					({ sna, lat, lng, bemp, act, sbi_detail }, idx) => {
-						if (!ubikeSW) return null;
-						return (
-							<Marker
-								key={idx}
-								position={[parseFloat(lat), parseFloat(lng)]}
-								icon={ubike(scale)}
-							>
-								<Popup>
-									{act ? (
-										<div className='flex flex-col'>
-											<h1 className='text-lg whitespace-nowrap'>
-												{sna.replace('YouBike2.0_', '')}
-											</h1>
-											<p className='text-md'>
-												可還數量: {bemp}
-												<br />
-												普通車: {sbi_detail.yb2}
-												<br />
-												{parseInt(sbi_detail.eyb) > 0
-													? `電輔車: ${sbi_detail.eyb}`
-													: null}
-											</p>
-										</div>
-									) : (
-										<h1>此站未運營</h1>
-									)}
-								</Popup>
-							</Marker>
-						);
-					}
-				)}
+				{ubikeData &&
+					ubikeData.map(
+						({ sna, lat, lng, bemp, act, sbi_detail }, idx) => {
+							if (!ubikeSW) return null;
+							return (
+								<Marker
+									key={idx}
+									position={[
+										parseFloat(lat),
+										parseFloat(lng),
+									]}
+									icon={ubike(scale)}
+								>
+									<Popup>
+										{act ? (
+											<div className='flex flex-col'>
+												<h1 className='text-lg whitespace-nowrap'>
+													{sna.replace(
+														'YouBike2.0_',
+														''
+													)}
+												</h1>
+												<p className='text-md'>
+													可還數量: {bemp}
+													<br />
+													普通車: {sbi_detail.yb2}
+													<br />
+													{parseInt(sbi_detail.eyb) >
+													0
+														? `電輔車: ${sbi_detail.eyb}`
+														: null}
+												</p>
+												{coordExists(dest, [
+													parseFloat(lat),
+													parseFloat(lng),
+												]) ? (
+													<Button
+														className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
+														label='刪除目的'
+														onClick={() =>
+															rmDest([
+																parseFloat(lat),
+																parseFloat(lng),
+															])
+														}
+													/>
+												) : (
+													<Button
+														className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
+														label='新增目的'
+														onClick={() =>
+															addDest([
+																parseFloat(lat),
+																parseFloat(lng),
+															])
+														}
+													/>
+												)}
+											</div>
+										) : (
+											<h1>此站未運營</h1>
+										)}
+									</Popup>
+								</Marker>
+							);
+						}
+					)}
 				{locations.map(({ name, coord, icon, type }, idx) => {
 					if (!buildingSW && type === 'building') return null;
 					if (!architectSW && type === 'architect') return null;
@@ -160,11 +204,19 @@ const Map = () => {
 							<Popup>
 								<div className='flex flex-col'>
 									{name}
-									<Button
-										className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
-										label='新增目的'
-										onClick={() => addDest(coord)}
-									/>
+									{dest.includes(coord) ? (
+										<Button
+											className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
+											label='刪除目的'
+											onClick={() => rmDest(coord)}
+										/>
+									) : (
+										<Button
+											className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
+											label='新增目的'
+											onClick={() => addDest(coord)}
+										/>
+									)}
 								</div>
 							</Popup>
 						</Marker>

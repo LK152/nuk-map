@@ -10,8 +10,8 @@ const RoutingMachine = ({ destinations }: { destinations: LatLngTuple[] }) => {
 		if (!map) return;
 
 		L.Icon.Default.mergeOptions({
-			iconRetinaUrl: '/leaflet/marker-icon-2x.png',
-			iconUrl: '/leaflet/marker-icon.png',
+			iconRetinaUrl: '/leaflet/marker-icon-2x-red.png',
+			iconUrl: '/leaflet/marker-icon-red.png',
 			shadowUrl: '/leaflet/marker-shadow.png',
 		});
 
@@ -27,6 +27,8 @@ const RoutingMachine = ({ destinations }: { destinations: LatLngTuple[] }) => {
 			fitSelectedRoutes: true,
 			showAlternatives: true,
 		}).addTo(map);
+		const container = routingControl.getContainer();
+		if (container) container.style.display = 'none';
 
 		return () => {
 			if (map) map.removeControl(routingControl);
