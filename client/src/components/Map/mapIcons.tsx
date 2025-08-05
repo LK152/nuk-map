@@ -1,11 +1,4 @@
-import L, { Icon, LatLngTuple } from 'leaflet';
-
-type locationsType = {
-	name: string;
-	coord: LatLngTuple;
-	icon: (scale: number) => Icon;
-	type: string;
-};
+import L, { Icon } from 'leaflet';
 
 //  ---------- Buildings ----------
 const gate = (scale: number) => {
@@ -243,129 +236,110 @@ const ubike = (scale: number) => {
 	return icon;
 };
 
-const locations: locationsType[] = [
-	{
-		name: '校門口',
-		coord: [22.732428730087655, 120.28461166106801],
-		icon: gate,
-		type: 'building',
-	},
-	{
-		name: '圖資大樓',
-		coord: [22.73414569608387, 120.28518432455931],
-		icon: lib,
-		type: 'building',
-	},
-	{
-		name: '行政大樓',
-		coord: [22.73415305080536, 120.28368835438248],
-		icon: exec,
-		type: 'building',
-	},
-	{
-		name: '運健休大樓',
-		coord: [22.734222233746483, 120.27813130917919],
-		icon: sports,
-		type: 'building',
-	},
-	{
-		name: '風雨球場',
-		coord: [22.73101069169259, 120.27957527870095],
-		icon: court,
-		type: 'building',
-	},
-	{
-		name: '學生活動中心',
-		coord: [22.732165183210903, 120.28127642135759],
-		icon: activity,
-		type: 'building',
-	},
-	{
-		name: '人文社會科學院',
-		coord: [22.735200265860797, 120.28150837452102],
-		icon: humanities,
-		type: 'building',
-	},
-	{
-		name: '工學院',
-		coord: [22.731905894048207, 120.2766975978638],
-		icon: eng,
-		type: 'building',
-	},
-	{
-		name: '理學院',
-		coord: [22.73544149855268, 120.28608878661407],
-		icon: science,
-		type: 'building',
-	},
-	{
-		name: '管理學院',
-		coord: [22.732534910380707, 120.28753053179393],
-		icon: business,
-		type: 'building',
-	},
-	{
-		name: '風車',
-		coord: [22.73266358116765, 120.28047063049529],
-		icon: windmill,
-		type: 'architect',
-	},
-	{
-		name: '阿呆',
-		coord: [22.731563086119646, 120.28047648540796],
-		icon: dog,
-		type: 'architect',
-	},
-	{
-		name: '記憶河流',
-		coord: [22.734759648038576, 120.28207252038025],
-		icon: river,
-		type: 'architect',
-	},
-	{
-		name: '解鎖大地',
-		coord: [22.734009126308436, 120.27880598633568],
-		icon: key,
-		type: 'architect',
-	},
-	{
-		name: '莿桐',
-		coord: [22.732607303379705, 120.27798367929977],
-		icon: paulownia,
-		type: 'architect',
-	},
-	{
-		name: '生態池',
-		coord: [22.733145623087292, 120.28138260935852],
-		icon: pond,
-		type: 'architect',
-	},
-	{
-		name: '根植大地',
-		coord: [22.733293784811806, 120.27827688906338],
-		icon: plantation,
-		type: 'architect',
-	},
-	{
-		name: '書香',
-		coord: [22.734789530691216, 120.28802986340852],
-		icon: literature,
-		type: 'architect',
-	},
-	{
-		name: '對話',
-		coord: [22.73241201312254, 120.28754475241776],
-		icon: communication,
-		type: 'architect',
-	},
-	{
-		name: '大地樂章',
-		coord: [22.733691170748294, 120.28611723353849],
-		icon: poem,
-		type: 'architect',
-	},
-];
+const parking = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/parking.png',
+		iconSize: [5 * scale, 5 * scale],
+		iconAnchor: [2.5 * scale, 5 * scale],
+		popupAnchor: [0, -5 * scale],
+	});
 
-export default locations;
+	return icon;
+};
 
-export { ubike };
+const basketball = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/basketball.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const tennis = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/tennis.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const woodball = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/woodball.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const baseball = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/baseball.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const track = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/track.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const dorm = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/dorm.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+export {
+	ubike,
+	parking,
+	gate,
+	lib,
+	exec,
+	sports,
+	court,
+	activity,
+	humanities,
+	business,
+	eng,
+	science,
+	windmill,
+	pond,
+	dog,
+	river,
+	key,
+	paulownia,
+	plantation,
+	literature,
+	communication,
+	poem,
+	basketball,
+	tennis,
+	woodball,
+	baseball,
+	dorm,
+	track,
+};

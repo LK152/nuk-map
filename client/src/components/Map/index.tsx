@@ -2,14 +2,15 @@
 
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import locations, { ubike } from './mapIcons';
+import { parking, ubike } from './mapIcons';
+import { courts, locations, motorcycleEntrances, dorms } from '@data/locations';
 import { useEffect, useRef, useState } from 'react';
 import Menu from '../Menu';
-import RoutingMachine from '@/func/Routing';
+import RoutingMachine from '@func/Routing';
 import { Button } from 'primereact/button';
 import { LatLngTuple } from 'leaflet';
 import SpotsAutocomplete from '../SpotsAutocomplete';
-import fetchUbike from '@/func/UbikeInfo';
+import fetchUbike from '@func/UbikeInfo';
 
 const Map = () => {
 	const mapRef = useRef<L.Map | null>(null);
@@ -120,6 +121,91 @@ const Map = () => {
 					attribution='&copy; MapTiler & OpenStreetMap contributors'
 					url='https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=eogDeLZuq3Kl0LRIL5JD'
 				/>
+
+				{dorms.map(({ name, coord, icon }, idx) => {
+					return (
+						<Marker key={idx} position={coord} icon={icon(scale)}>
+							<Popup>
+								<h1>{name}</h1>
+								{
+									<div className='flex flex-col'>
+										{coordExists(dest, coord) ? (
+											<Button
+												className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
+												label='刪除目的'
+												onClick={() => rmDest(coord)}
+											/>
+										) : (
+											<Button
+												className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
+												label='新增目的'
+												onClick={() => addDest(coord)}
+											/>
+										)}
+									</div>
+								}
+							</Popup>
+						</Marker>
+					);
+				})}
+
+				{courts.map(({ name, coord, icon }, idx) => {
+					return (
+						<Marker key={idx} position={coord} icon={icon(scale)}>
+							<Popup>
+								<h1>{name}</h1>
+								{
+									<div className='flex flex-col'>
+										{coordExists(dest, coord) ? (
+											<Button
+												className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
+												label='刪除目的'
+												onClick={() => rmDest(coord)}
+											/>
+										) : (
+											<Button
+												className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
+												label='新增目的'
+												onClick={() => addDest(coord)}
+											/>
+										)}
+									</div>
+								}
+							</Popup>
+						</Marker>
+					);
+				})}
+
+				{motorcycleEntrances.map(({ coord }, idx) => {
+					return (
+						<Marker
+							key={idx}
+							position={coord}
+							icon={parking(scale)}
+						>
+							<Popup>
+								{
+									<div className='flex flex-col'>
+										{coordExists(dest, coord) ? (
+											<Button
+												className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
+												label='刪除目的'
+												onClick={() => rmDest(coord)}
+											/>
+										) : (
+											<Button
+												className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
+												label='新增目的'
+												onClick={() => addDest(coord)}
+											/>
+										)}
+									</div>
+								}
+							</Popup>
+						</Marker>
+					);
+				})}
+
 				{ubikeData &&
 					ubikeData.map(
 						({ sna, lat, lng, bemp, act, sbi_detail }, idx) => {
@@ -187,6 +273,7 @@ const Map = () => {
 							);
 						}
 					)}
+
 				{locations.map(({ name, coord, icon, type }, idx) => {
 					if (!buildingSW && type === 'building') return null;
 					if (!architectSW && type === 'architect') return null;
