@@ -176,7 +176,7 @@ const Map = () => {
 					);
 				})}
 
-				{motorcycleEntrances.map(({ coord }, idx) => {
+				{motorcycleEntrances.map(({ name, coord }, idx) => {
 					return (
 						<Marker
 							key={idx}
@@ -186,6 +186,7 @@ const Map = () => {
 							<Popup>
 								{
 									<div className='flex flex-col'>
+										<h1>{name}</h1>
 										{coordExists(dest, coord) ? (
 											<Button
 												className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
