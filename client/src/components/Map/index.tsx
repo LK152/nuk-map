@@ -2,13 +2,14 @@
 
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import locations from './mapIcons';
+import locations, { ubike } from './mapIcons';
 import { useEffect, useRef, useState } from 'react';
 import Menu from '../Menu';
 import RoutingMachine from '@/func/Routing';
 import { Button } from 'primereact/button';
 import { LatLngTuple } from 'leaflet';
 import SpotsAutocomplete from '../SpotsAutocomplete';
+import fetchUbike from '@/func/UbikeInfo';
 
 const Map = () => {
 	const mapRef = useRef<L.Map | null>(null);
@@ -16,7 +17,19 @@ const Map = () => {
 
 	const [dest, setDest] = useState<LatLngTuple[]>([]);
 	const [scale, setScale] = useState<number>(0);
+	const [buildingSW, setBuildingSW] = useState<boolean>(true);
 	const [architectSW, setArchitectSW] = useState<boolean>(false);
+	const [aedSW, setAedSW] = useState<boolean>(false);
+	const [ubikeSW, setUbikeSW] = useState<boolean>(false);
+	const [atmSW, setAtmSW] = useState<boolean>(false);
+	const [ubikeData, setUbikeData] = useState<UBikeStation[] | null>(null);
+
+	useEffect(() => {
+		(async () => {
+			const data = await fetchUbike();
+			setUbikeData(data);
+		})();
+	}, []);
 
 	const MapComponent = () => {
 		const map = useMap();
@@ -47,6 +60,22 @@ const Map = () => {
 		setArchitectSW(!architectSW);
 	};
 
+	const toggleAedSW = () => {
+		setAedSW(!aedSW);
+	};
+
+	const toggleAtmSW = () => {
+		setAtmSW(!atmSW);
+	};
+
+	const toggleUbikeSW = () => {
+		setUbikeSW(!ubikeSW);
+	};
+
+	const toggleBuildingSW = () => {
+		setBuildingSW(!buildingSW);
+	};
+
 	const addDest = (coord: LatLngTuple) => {
 		setDest((prev) => [...prev, coord]);
 		console.log(dest);
@@ -55,11 +84,7 @@ const Map = () => {
 	const JumpTo = (spot: spotDataType | null) => {
 		if (!spot) return;
 		const marker = markerRefs.current[spot.name];
-		if (
-			!mapRef.current ||
-			marker?.isPopupOpen()
-		)
-			return;
+		if (!mapRef.current || marker?.isPopupOpen()) return;
 
 		mapRef.current.flyTo([spot.lat, spot.lng], 18, { duration: 0.4 });
 
@@ -85,7 +110,41 @@ const Map = () => {
 					attribution='&copy; MapTiler & OpenStreetMap contributors'
 					url='https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=eogDeLZuq3Kl0LRIL5JD'
 				/>
+				{ubikeData?.map(
+					({ sna, lat, lng, bemp, act, sbi_detail }, idx) => {
+						if (!ubikeSW) return null;
+						return (
+							<Marker
+								key={idx}
+								position={[parseFloat(lat), parseFloat(lng)]}
+								icon={ubike(scale)}
+							>
+								<Popup>
+									{act ? (
+										<div className='flex flex-col'>
+											<h1 className='text-lg whitespace-nowrap'>
+												{sna.replace('YouBike2.0_', '')}
+											</h1>
+											<p className='text-md'>
+												可還數量: {bemp}
+												<br />
+												普通車: {sbi_detail.yb2}
+												<br />
+												{parseInt(sbi_detail.eyb) > 0
+													? `電輔車: ${sbi_detail.eyb}`
+													: null}
+											</p>
+										</div>
+									) : (
+										<h1>此站未運營</h1>
+									)}
+								</Popup>
+							</Marker>
+						);
+					}
+				)}
 				{locations.map(({ name, coord, icon, type }, idx) => {
+					if (!buildingSW && type === 'building') return null;
 					if (!architectSW && type === 'architect') return null;
 					return (
 						<Marker
@@ -114,7 +173,16 @@ const Map = () => {
 			</MapContainer>
 			<Menu
 				architectSW={architectSW}
+				aedSW={aedSW}
+				atmSW={atmSW}
+				ubikeSW={ubikeSW}
+				buildingSW={buildingSW}
 				toggleArchitectSW={toggleArchitectSW}
+				toggleAedSW={toggleAedSW}
+				toggleAtmSW={toggleAtmSW}
+				toggleUbikeSW={toggleUbikeSW}
+				toggleBuildingSW={toggleBuildingSW}
+				JumpTo={JumpTo}
 			/>
 		</div>
 	);

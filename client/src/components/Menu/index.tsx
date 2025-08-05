@@ -7,13 +7,30 @@ import ClassroomAutocomplete from '../ClassroomAutocomplete';
 
 const Menu = ({
 	architectSW,
+	aedSW,
+	atmSW,
+	ubikeSW,
+	buildingSW,
 	toggleArchitectSW,
+	toggleAedSW,
+	toggleAtmSW,
+	toggleUbikeSW,
+	toggleBuildingSW,
+	JumpTo,
 }: {
 	architectSW: boolean;
+	aedSW: boolean;
+	atmSW: boolean;
+	ubikeSW: boolean;
+	buildingSW: boolean;
 	toggleArchitectSW: () => void;
+	toggleAtmSW: () => void;
+	toggleAedSW: () => void;
+	toggleUbikeSW: () => void;
+	toggleBuildingSW: () => void;
+	JumpTo: (spot: spotDataType | null) => void;
 }) => {
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
-	const [classroom, setClassroom] = useState<string>('');
 	const [aboutDialog, setAboutDialog] = useState<boolean>(false);
 
 	const toggleClick = () => {
@@ -53,7 +70,11 @@ const Menu = ({
 					<p className='text-black text-sm whitespace-nowrap p-1'>
 						搜尋教室
 					</p>
-                    <ClassroomAutocomplete />
+					<ClassroomAutocomplete onSelect={JumpTo} />
+				</div>
+				<div className='flex items-center my-5'>
+					<p className='text-black text-sm p-1'>顯示大樓</p>
+					<Switch checked={buildingSW} onChange={toggleBuildingSW} />
 				</div>
 				<div className='flex items-center my-5'>
 					<p className='text-black text-sm p-1'>顯示裝置藝術</p>
@@ -61,6 +82,18 @@ const Menu = ({
 						checked={architectSW}
 						onChange={toggleArchitectSW}
 					/>
+				</div>
+				<div className='flex items-center my-5'>
+					<p className='text-black text-sm p-1'>顯示atm</p>
+					<Switch checked={atmSW} onChange={toggleAtmSW} />
+				</div>
+				<div className='flex items-center my-5'>
+					<p className='text-black text-sm p-1'>顯示UBIKE站點</p>
+					<Switch checked={ubikeSW} onChange={toggleUbikeSW} />
+				</div>
+				<div className='flex items-center my-5'>
+					<p className='text-black text-sm p-1'>顯示AED</p>
+					<Switch checked={aedSW} onChange={toggleAedSW} />
 				</div>
 				<div className='absolute bottom-10'>
 					<Button

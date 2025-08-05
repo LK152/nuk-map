@@ -7,9 +7,7 @@ const Map = dynamic(
 );
 
 const Home = () => {
-	return (
-			<Map />
-	);
+	return <Map />;
 };
 
 export default Home;

@@ -230,6 +230,19 @@ const poem = (scale: number) => {
 	return icon;
 };
 
+//  ---------- Miscellaneous ----------
+
+const ubike = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/bike.png',
+		iconSize: [10 * scale, 10 * scale],
+		iconAnchor: [5 * scale, 10 * scale],
+		popupAnchor: [0, -10 * scale],
+	});
+
+	return icon;
+};
+
 const locations: locationsType[] = [
 	{
 		name: '校門口',
@@ -268,26 +281,25 @@ const locations: locationsType[] = [
 		type: 'building',
 	},
 	{
-		name: '人文院',
+		name: '人文社會科學院',
 		coord: [22.735200265860797, 120.28150837452102],
 		icon: humanities,
 		type: 'building',
 	},
 	{
-		// name: '工院綜合大樓',
 		name: '工學院',
 		coord: [22.731905894048207, 120.2766975978638],
 		icon: eng,
 		type: 'building',
 	},
 	{
-		name: '理院',
+		name: '理學院',
 		coord: [22.73544149855268, 120.28608878661407],
 		icon: science,
 		type: 'building',
 	},
 	{
-		name: '管法院',
+		name: '管理學院',
 		coord: [22.732534910380707, 120.28753053179393],
 		icon: business,
 		type: 'building',
@@ -355,3 +367,5 @@ const locations: locationsType[] = [
 ];
 
 export default locations;
+
+export { ubike };
