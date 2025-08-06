@@ -47,15 +47,23 @@ const SpotsAutocomplete = ({
 	};
 
 	return (
-		<div className={`${error && 'invisible'}`}>
+		<div className={`w-full ${error ? 'invisible' : ''}`}>
 			<AutoComplete
-				inputClassName='caret-black text-black w-[120px] p-3 text-lg border-1 border rounded'
+				inputClassName='w-full caret-black text-black p-4 text-lg border-1 border rounded'
 				panelClassName='bg-white'
 				value={searchVal}
 				suggestions={suggestions}
 				completeMethod={search}
 				onChange={(e) => {
 					setSearchVal(e.value);
+				}}
+				onSelect={(e) => {
+					setSearchVal(e.value);
+					const foundSpot =
+						spots?.find((obj) =>
+							obj.classrooms.find((classroom) => classroom.name === e.value)
+						) ?? null;
+					onSelect(foundSpot);
 				}}
 				placeholder='查尋教室'
 				onKeyDown={onKeyDown}
