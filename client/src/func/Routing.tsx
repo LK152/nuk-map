@@ -7,7 +7,7 @@ const RoutingMachine = ({ destinations }: { destinations: LatLngTuple[] }) => {
 	const map = useMap();
 
 	useEffect(() => {
-		if (!map) return;
+		if (!map || !(map as any)._controlCorners) return;
 
 		L.Icon.Default.mergeOptions({
 			iconRetinaUrl: '/leaflet/marker-icon-2x-red.png',
@@ -15,23 +15,34 @@ const RoutingMachine = ({ destinations }: { destinations: LatLngTuple[] }) => {
 			shadowUrl: '/leaflet/marker-shadow.png',
 		});
 
-		const routingControl = L.Routing.control({
-			waypoints: destinations.map((coords) => L.latLng(coords)),
-			lineOptions: {
-				styles: [{ color: '#6FA1EC', weight: 4 }],
-			},
-			show: false,
-			addWaypoints: true,
-			routeWhileDragging: true,
-			draggableWaypoints: true,
-			fitSelectedRoutes: true,
-			showAlternatives: true,
-		}).addTo(map);
-		const container = routingControl.getContainer();
-		if (container) container.style.display = 'none';
+		let routingControl: any;
+
+		if (destinations.length >= 2) {
+			map.whenReady(() => {
+				routingControl = L.Routing.control({
+					waypoints: destinations.map((coords) => L.latLng(coords)),
+					lineOptions: {
+						styles: [{ color: '#6FA1EC', weight: 4 }],
+					},
+					show: false,
+					addWaypoints: true,
+					routeWhileDragging: true,
+					draggableWaypoints: true,
+					fitSelectedRoutes: true,
+					showAlternatives: true,
+				}).addTo(map);
+
+				const container = routingControl.getContainer();
+				if (container) container.style.display = 'none';
+			});
+		}
 
 		return () => {
-			if (map) map.removeControl(routingControl);
+			if (routingControl) {
+				try {
+					map.removeControl(routingControl);
+				} catch {}
+			}
 		};
 	}, [map, destinations]);
 

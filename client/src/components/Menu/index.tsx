@@ -17,6 +17,8 @@ const Menu = ({
 	toggleUbikeSW,
 	toggleBuildingSW,
 	JumpTo,
+	navMode,
+  	setNavMode,
 }: {
 	architectSW: boolean;
 	aedSW: boolean;
@@ -29,6 +31,8 @@ const Menu = ({
 	toggleUbikeSW: () => void;
 	toggleBuildingSW: () => void;
 	JumpTo: (spot: spotDataType | null) => void;
+	navMode: boolean;
+  	setNavMode: (v: boolean) => void;
 }) => {
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 	const [aboutDialog, setAboutDialog] = useState<boolean>(false);
@@ -72,8 +76,13 @@ const Menu = ({
 						<ClassroomAutocomplete onSelect={JumpTo} />
 					</div>
 				</div>
+				<p className='text-black text-base font-semibold mb-4 self-start ml-8'>導航模式</p>
+				<div className='flex items-center justify-between w-[80%] my-3'>
+				<p className='text-black text-sm'>導航</p>
+				<Switch checked={navMode} onChange={() => setNavMode(!navMode)} />
+				</div>
 				<p className='text-black text-base font-semibold mb-4 self-start ml-8'></p>
-				<p className='text-black text-base font-semibold mb-4 self-start ml-8'>我想看什麼？</p>
+				<p className='text-black text-base font-semibold mb-4 self-start ml-8'>想看什麼？</p>
 				<div className='flex items-center justify-between w-[80%] my-3'>
 					<p className='text-black text-sm'>顯示大樓</p>
 					<Switch checked={buildingSW} onChange={toggleBuildingSW} />

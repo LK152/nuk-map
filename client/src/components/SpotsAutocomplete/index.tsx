@@ -57,6 +57,12 @@ const SpotsAutocomplete = ({
 				onChange={(e) => {
 					setSelectedSpot(e.value);
 				}}
+				onSelect={(e) => {
+					const spot = e.value as spotDataType;
+					setSelectedSpot(spot);
+					onSelect(spot);
+					setSelectedSpot(null);
+				}}
 				onFocus={() => setFocus(true)}
 				onBlur={() => setFocus(false)}
 				placeholder='搜尋地點'

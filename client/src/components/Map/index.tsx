@@ -11,6 +11,7 @@ import { Button } from 'primereact/button';
 import { LatLngTuple } from 'leaflet';
 import SpotsAutocomplete from '../SpotsAutocomplete';
 import fetchUbike from '@func/UbikeInfo';
+import { CircleMarker, useMapEvents } from 'react-leaflet';
 
 const Map = () => {
 	const mapRef = useRef<L.Map | null>(null);
@@ -24,6 +25,8 @@ const Map = () => {
 	const [ubikeSW, setUbikeSW] = useState<boolean>(false);
 	const [atmSW, setAtmSW] = useState<boolean>(false);
 	const [ubikeData, setUbikeData] = useState<UBikeStation[] | null>(null);
+	const [navMode, setNavMode] = useState<boolean>(true);
+	const [freePoints, setFreePoints] = useState<LatLngTuple[]>([]);
 
 	useEffect(() => {
 		(async () => {
@@ -88,6 +91,12 @@ const Map = () => {
 		);
 	};
 
+	const clearRoute = () => {
+		setDest([]);
+		setFreePoints([]);
+		setNavMode(false);
+	};
+
 	const coordExists = (arr: LatLngTuple[], target: LatLngTuple): boolean => {
 		return arr.some(([lat, lng]) => lat === target[0] && lng === target[1]);
 	};
@@ -101,6 +110,16 @@ const Map = () => {
 
 		if (marker) setTimeout(() => marker.openPopup(), 600);
 		else console.warn('Marker ref not found for spot:', spot.name);
+	};
+
+	// Helper component to handle map clicks for adding up to 3 free points in navMode
+	const MapClickHandler = ({ onClick }: { onClick: (latlng: L.LatLng) => void }) => {
+		useMapEvents({
+			click(e) {
+				onClick(e.latlng);
+			},
+		});
+		return null;
 	};
 
 	return (
@@ -117,10 +136,33 @@ const Map = () => {
 				<MapComponent />
 				<SpotsAutocomplete onSelect={JumpTo} />
 				<RoutingMachine destinations={dest} />
+				{navMode && (
+					<MapClickHandler
+						onClick={(latlng) => {
+							if (coordExists(freePoints, [latlng.lat, latlng.lng])) return;
+							if (freePoints.length >= 3) {
+								setFreePoints((prev) => [...prev.slice(1), [latlng.lat, latlng.lng]]);
+								setDest((prev) => [...prev.slice(1), [latlng.lat, latlng.lng]]);
+							} else {
+								setFreePoints((prev) => [...prev, [latlng.lat, latlng.lng]]);
+								setDest((prev) => [...prev, [latlng.lat, latlng.lng]]);
+							}
+						}}
+					/>
+				)}
 				<TileLayer
 					attribution='&copy; MapTiler & OpenStreetMap contributors'
 					url='https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=eogDeLZuq3Kl0LRIL5JD'
 				/>
+
+                {freePoints.map((p, i) => (
+                    <CircleMarker
+                        key={`fp-${i}`}
+                        center={p}
+                        radius={6}
+                        pathOptions={{ color: '#2563eb', fillColor: '#2563eb', fillOpacity: 0.9 }}
+                    />
+                ))}
 
 				{dorms.map(({ name, coord, icon }, idx) => {
 					return (
@@ -323,7 +365,19 @@ const Map = () => {
 				toggleUbikeSW={toggleUbikeSW}
 				toggleBuildingSW={toggleBuildingSW}
 				JumpTo={JumpTo}
+				navMode={navMode}
+  				setNavMode={setNavMode}
 			/>
+			{dest.length > 0 && (
+				<button
+					aria-label='結束導航'
+					title='結束導航'
+					onClick={clearRoute}
+					className='fixed bottom-6 right-6 z-[1100] w-14 h-14 rounded-full bg-white border border-red-500 text-red-600 text-2xl shadow-md flex items-center justify-center hover:bg-red-50 active:scale-95 transition'
+				>
+					✕
+				</button>
+			)}
 		</div>
 	);
 };
