@@ -33,7 +33,7 @@ const Map = () => {
 	const [ubikeSW, setUbikeSW] = useState<boolean>(false);
 	const [atmSW, setAtmSW] = useState<boolean>(false);
 	const [ubikeData, setUbikeData] = useState<UBikeStation[] | null>(null);
-	const [navMode, setNavMode] = useState<boolean>(true);
+	const [navMode, setNavMode] = useState<boolean>(false);
 	const [freePoints, setFreePoints] = useState<LatLngTuple[]>([]);
 
 	useEffect(() => {
