@@ -28,7 +28,7 @@
 }
 
 .sidebar {
-	transform: translateX(300px);
+	transform: translateX(320px);
 	transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 

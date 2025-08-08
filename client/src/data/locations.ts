@@ -25,6 +25,9 @@ import {
 	dorm,
 	baseball,
 	track,
+	complex,
+	volleyball,
+	familymart,
 } from '@components/Map/mapIcons';
 import { LatLngTuple, Icon } from 'leaflet';
 
@@ -66,7 +69,7 @@ const locations: locationsType[] = [
 		type: 'building',
 	},
 	{
-		name: '風雨球場',
+		name: '洪四川運動廣場',
 		coord: [22.73101069169259, 120.27957527870095],
 		icon: court,
 		type: 'building',
@@ -84,8 +87,14 @@ const locations: locationsType[] = [
 		type: 'building',
 	},
 	{
+		name: '綜合大樓',
+		coord: [22.731251780779072, 120.27731961637429],
+		icon: complex,
+		type: 'building',
+	},
+	{
 		name: '工學院',
-		coord: [22.731905894048207, 120.2766975978638],
+		coord: [22.732480598132806, 120.27646762863279],
 		icon: eng,
 		type: 'building',
 	},
@@ -103,7 +112,13 @@ const locations: locationsType[] = [
 	},
 	{
 		name: '風車',
-		coord: [22.73266358116765, 120.28047063049529],
+		coord: [22.732785105479525, 120.28078406767438],
+		icon: windmill,
+		type: 'architect',
+	},
+	{
+		name: '風車',
+		coord: [22.735734671293876, 120.28397646111544],
 		icon: windmill,
 		type: 'architect',
 	},
@@ -115,7 +130,7 @@ const locations: locationsType[] = [
 	},
 	{
 		name: '記憶河流',
-		coord: [22.734759648038576, 120.28207252038025],
+		coord: [22.734222003715143, 120.28305178066464],
 		icon: river,
 		type: 'architect',
 	},
@@ -145,7 +160,7 @@ const locations: locationsType[] = [
 	},
 	{
 		name: '書香',
-		coord: [22.734789530691216, 120.28802986340852],
+		coord: [22.734523809569517, 120.28929596307852],
 		icon: literature,
 		type: 'architect',
 	},
@@ -157,7 +172,7 @@ const locations: locationsType[] = [
 	},
 	{
 		name: '大地樂章',
-		coord: [22.733691170748294, 120.28611723353849],
+		coord: [22.734301877459004, 120.28619248924336],
 		icon: poem,
 		type: 'architect',
 	},
@@ -172,19 +187,19 @@ const motorcycleEntrances: landmarkType[] = [
 	{ name: '網球場機車停車場', coord: [22.73079851197864, 120.2780488363561] },
 	{
 		name: '校門口機車停車場',
-		coord: [22.732346667552843, 120.2842597659992],
+		coord: [22.73213995825555, 120.28439924024235],
 	},
 	{
 		name: '法學院機車停車場',
-		coord: [22.732435093323488, 120.28712829536782],
+		coord: [22.732306378876817, 120.28716217858995],
 	},
 	{
 		name: '管學院機車停車場',
-		coord: [22.736349594595286, 120.2902075196905],
+		coord: [22.732469276566665, 120.28974993411838],
 	},
 	{
 		name: '理學院機車停車場',
-		coord: [22.73257038532707, 120.28978665893766],
+		coord: [22.736237927830867, 120.29021463896562],
 	},
 ];
 
@@ -219,6 +234,11 @@ const courts: locationsType[] = [
 		coord: [22.735587647065664, 120.27996681796827],
 		icon: track,
 	},
+	{
+		name: '宿舍排球場',
+		coord: [22.73453757958894, 120.27741085989268],
+		icon: volleyball,
+	},
 ];
 
 const dorms: locationsType[] = [
@@ -234,4 +254,38 @@ const dorms: locationsType[] = [
 	},
 ];
 
-export { locations, motorcycleEntrances, courts, dorms };
+type openHoursType = {
+	open: string;
+	close: string;
+};
+
+type convenienceStoreType = locationsType & {
+	openHours: {
+		sunday: openHoursType;
+		monday: openHoursType;
+		tuesday: openHoursType;
+		wednesday: openHoursType;
+		thursday: openHoursType;
+		friday: openHoursType;
+		saturday: openHoursType;
+	};
+};
+
+const convenienceStores: convenienceStoreType[] = [
+	{
+		name: '第二宿舍全家便利商店',
+		coord: [22.73589696572668, 120.27843841083529],
+		icon: familymart,
+		openHours: {
+			monday: { open: '8:00', close: '23:00' },
+			tuesday: { open: '8:00', close: '23:00' },
+			wednesday: { open: '8:00', close: '23:00' },
+			thursday: { open: '8:00', close: '23:00' },
+			friday: { open: '8:00', close: '21:00' },
+			saturday: { open: '8:00', close: '21:00' },
+			sunday: { open: '8:00', close: '21:00' },
+		},
+	},
+];
+
+export { locations, motorcycleEntrances, courts, dorms, convenienceStores };

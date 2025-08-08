@@ -78,12 +78,23 @@ const humanities = (scale: number) => {
 	return icon;
 };
 
+const complex = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/complex.png',
+		iconSize: [53.76 * scale, 27.52 * scale],
+		iconAnchor: [26.88 * scale, 27.52 * scale],
+		popupAnchor: [0, -27.52 * scale],
+	});
+
+	return icon;
+};
+
 const eng = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/eng.png',
-		iconSize: [117 * scale, 29 * scale],
-		iconAnchor: [58.5 * scale, 29 * scale],
-		popupAnchor: [0, -29 * scale],
+		iconSize: [53.76 * scale, 27.52 * scale],
+		iconAnchor: [26.88 * scale, 27.52 * scale],
+		popupAnchor: [0, -27.52 * scale],
 	});
 
 	return icon;
@@ -112,13 +123,44 @@ const business = (scale: number) => {
 };
 
 //  ---------- Architectures ----------
+type architectDimensionsType = {
+	windmill: [number, number];
+	dog: [number, number];
+	river: [number, number];
+	key: [number, number];
+	pond: [number, number];
+	plantation: [number, number];
+	paulownia: [number, number];
+	literature: [number, number];
+	communication: [number, number];
+	poem: [number, number];
+};
+
+const architectDimensions: architectDimensionsType = {
+	windmill: [16.38, 34.65],
+	dog: [16, 16],
+	river: [49, 18.2],
+	key: [59, 32],
+	pond: [76, 35],
+	plantation: [82, 17],
+	paulownia: [40, 35],
+    literature: [23.1, 37.8],
+    communication: [69, 34], 
+    poem: [53.9, 14.7]
+};
 
 const windmill = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/windmill.png',
-		iconSize: [26 * scale, 55 * scale],
-		iconAnchor: [13 * scale, 55 * scale],
-		popupAnchor: [0, -55 * scale],
+		iconSize: [
+			architectDimensions.windmill[0] * scale,
+			architectDimensions.windmill[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.windmill[0] / 2) * scale,
+			architectDimensions.windmill[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.windmill[1] * scale],
 	});
 
 	return icon;
@@ -127,9 +169,15 @@ const windmill = (scale: number) => {
 const dog = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/dog.png',
-		iconSize: [31 * scale, 31 * scale],
-		iconAnchor: [15.5 * scale, 31 * scale],
-		popupAnchor: [0, -31 * scale],
+		iconSize: [
+			architectDimensions.dog[0] * scale,
+			architectDimensions.dog[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.dog[0] / 2) * scale,
+			architectDimensions.dog[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.dog[1] * scale],
 	});
 
 	return icon;
@@ -138,9 +186,15 @@ const dog = (scale: number) => {
 const river = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/river.png',
-		iconSize: [70 * scale, 26 * scale],
-		iconAnchor: [35 * scale, 26 * scale],
-		popupAnchor: [0, -26 * scale],
+		iconSize: [
+			architectDimensions.river[0] * scale,
+			architectDimensions.river[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.river[0] / 2) * scale,
+			architectDimensions.river[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.river[1] * scale],
 	});
 
 	return icon;
@@ -149,9 +203,15 @@ const river = (scale: number) => {
 const key = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/key.png',
-		iconSize: [59 * scale, 32 * scale],
-		iconAnchor: [29.5 * scale, 32 * scale],
-		popupAnchor: [0, -32 * scale],
+		iconSize: [
+			architectDimensions.key[0] * scale,
+			architectDimensions.key[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.key[0] / 2) * scale,
+			architectDimensions.key[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.key[1] * scale],
 	});
 
 	return icon;
@@ -160,9 +220,15 @@ const key = (scale: number) => {
 const paulownia = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/paulownia.png',
-		iconSize: [40 * scale, 35 * scale],
-		iconAnchor: [20 * scale, 35 * scale],
-		popupAnchor: [0, -35 * scale],
+		iconSize: [
+			architectDimensions.paulownia[0] * scale,
+			architectDimensions.paulownia[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.paulownia[0] / 2) * scale,
+			architectDimensions.paulownia[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.paulownia[1] * scale],
 	});
 
 	return icon;
@@ -171,9 +237,15 @@ const paulownia = (scale: number) => {
 const pond = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/pond.png',
-		iconSize: [76 * scale, 35 * scale],
-		iconAnchor: [38 * scale, 35 * scale],
-		popupAnchor: [0, -35 * scale],
+		iconSize: [
+			architectDimensions.pond[0] * scale,
+			architectDimensions.pond[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.pond[0] / 2) * scale,
+			architectDimensions.pond[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.pond[1] * scale],
 	});
 
 	return icon;
@@ -182,9 +254,15 @@ const pond = (scale: number) => {
 const plantation = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/plantation.png',
-		iconSize: [82 * scale, 17 * scale],
-		iconAnchor: [41 * scale, 17 * scale],
-		popupAnchor: [0, -17 * scale],
+		iconSize: [
+			architectDimensions.plantation[0] * scale,
+			architectDimensions.plantation[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.plantation[0] / 2) * scale,
+			architectDimensions.plantation[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.plantation[1] * scale],
 	});
 
 	return icon;
@@ -193,9 +271,15 @@ const plantation = (scale: number) => {
 const literature = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/literature.png',
-		iconSize: [33 * scale, 54 * scale],
-		iconAnchor: [16.5 * scale, 54 * scale],
-		popupAnchor: [0, -54 * scale],
+		iconSize: [
+			architectDimensions.literature[0] * scale,
+			architectDimensions.literature[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.literature[0] / 2) * scale,
+			architectDimensions.literature[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.literature[1] * scale],
 	});
 
 	return icon;
@@ -204,9 +288,15 @@ const literature = (scale: number) => {
 const communication = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/icon.png',
-		iconSize: [69 * scale, 34 * scale],
-		iconAnchor: [34.5 * scale, 34 * scale],
-		popupAnchor: [0, -34 * scale],
+		iconSize: [
+			architectDimensions.communication[0] * scale,
+			architectDimensions.communication[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.communication[0] / 2) * scale,
+			architectDimensions.communication[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.communication[1] * scale],
 	});
 
 	return icon;
@@ -215,15 +305,22 @@ const communication = (scale: number) => {
 const poem = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/poem.png',
-		iconSize: [77 * scale, 21 * scale],
-		iconAnchor: [38.5 * scale, 21 * scale],
-		popupAnchor: [0, -21 * scale],
+		iconSize: [
+			architectDimensions.poem[0] * scale,
+			architectDimensions.poem[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.poem[0] / 2) * scale,
+			architectDimensions.poem[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.poem[1] * scale],
 	});
 
 	return icon;
 };
 
 //  ---------- Miscellaneous ----------
+const parkingIconSize = 12;
 
 const ubike = (scale: number) => {
 	const icon: Icon = L.icon({
@@ -239,9 +336,9 @@ const ubike = (scale: number) => {
 const parking = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/parking.png',
-		iconSize: [5 * scale, 5 * scale],
-		iconAnchor: [2.5 * scale, 5 * scale],
-		popupAnchor: [0, -5 * scale],
+		iconSize: [parkingIconSize * scale, parkingIconSize * scale],
+		iconAnchor: [(parkingIconSize / 2) * scale, parkingIconSize * scale],
+		popupAnchor: [0, -parkingIconSize * scale],
 	});
 
 	return icon;
@@ -272,6 +369,17 @@ const tennis = (scale: number) => {
 const woodball = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/woodball.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const volleyball = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/volleyball.png',
 		iconSize: [8 * scale, 8 * scale],
 		iconAnchor: [4 * scale, 8 * scale],
 		popupAnchor: [0, -8 * scale],
@@ -313,6 +421,17 @@ const dorm = (scale: number) => {
 	return icon;
 };
 
+const familymart = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/familymart.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
 export {
 	ubike,
 	parking,
@@ -324,6 +443,7 @@ export {
 	activity,
 	humanities,
 	business,
+	complex,
 	eng,
 	science,
 	windmill,
@@ -342,4 +462,6 @@ export {
 	baseball,
 	dorm,
 	track,
+	volleyball,
+	familymart,
 };
