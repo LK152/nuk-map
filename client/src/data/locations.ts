@@ -354,6 +354,11 @@ const atms: locationsType[] = [
 		coord: [22.734099929739042, 120.28392643009857],
 		icon: atm,
 	},
+	{
+		name: '學生活動中心ATM',
+		coord: [22.732240922725452, 120.28084419866195],
+		icon: atm,
+	},
 ];
 
 export {
