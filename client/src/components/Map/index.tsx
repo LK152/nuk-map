@@ -90,6 +90,7 @@ const Map = () => {
 
 	const addDest = (coord: LatLngTuple) => {
 		setDest((prev) => [...prev, coord]);
+		if(!navMode) setNavMode(true);
 		console.log(dest);
 	};
 
