@@ -7,7 +7,7 @@ const RoutingMachine = ({ destinations }: { destinations: LatLngTuple[] }) => {
 	const map = useMap();
 
 	useEffect(() => {
-		if (!map || !(map as any)._controlCorners) return;
+		if (!map) return;
 
 		L.Icon.Default.mergeOptions({
 			iconRetinaUrl: '/leaflet/marker-icon-2x-red.png',
@@ -15,7 +15,7 @@ const RoutingMachine = ({ destinations }: { destinations: LatLngTuple[] }) => {
 			shadowUrl: '/leaflet/marker-shadow.png',
 		});
 
-		let routingControl: any;
+		let routingControl: L.Routing.RoutingControl;
 
 		if (destinations.length >= 2) {
 			map.whenReady(() => {
@@ -25,9 +25,9 @@ const RoutingMachine = ({ destinations }: { destinations: LatLngTuple[] }) => {
 						styles: [{ color: '#6FA1EC', weight: 4 }],
 					},
 					show: false,
-					addWaypoints: true,
-					routeWhileDragging: true,
-					draggableWaypoints: true,
+					addWaypoints: false,
+					routeWhileDragging: false,
+					draggableWaypoints: false,
 					fitSelectedRoutes: true,
 					showAlternatives: true,
 				}).addTo(map);
@@ -38,15 +38,20 @@ const RoutingMachine = ({ destinations }: { destinations: LatLngTuple[] }) => {
 		}
 
 		return () => {
-			if (routingControl) {
-				try {
-					map.removeControl(routingControl);
-				} catch {}
+			if (map && routingControl) {
+				map.removeControl(routingControl);
 			}
 		};
 	}, [map, destinations]);
 
 	return null;
+};
+
+export const coordExists = (
+	arr: LatLngTuple[],
+	target: LatLngTuple
+): boolean => {
+	return arr.some(([lat, lng]) => lat === target[0] && lng === target[1]);
 };
 
 export default RoutingMachine;

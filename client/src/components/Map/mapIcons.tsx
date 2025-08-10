@@ -144,9 +144,9 @@ const architectDimensions: architectDimensionsType = {
 	pond: [76, 35],
 	plantation: [82, 17],
 	paulownia: [40, 35],
-    literature: [23.1, 37.8],
-    communication: [69, 34], 
-    poem: [53.9, 14.7]
+	literature: [23.1, 37.8],
+	communication: [69, 34],
+	poem: [53.9, 14.7],
 };
 
 const windmill = (scale: number) => {
@@ -399,6 +399,17 @@ const baseball = (scale: number) => {
 	return icon;
 };
 
+const soccer = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/soccer.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
 const track = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/track.png',
@@ -427,6 +438,28 @@ const familymart = (scale: number) => {
 		iconSize: [8 * scale, 8 * scale],
 		iconAnchor: [4 * scale, 8 * scale],
 		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const aed = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/aed.png',
+		iconSize: [12 * scale, 12 * scale],
+		iconAnchor: [6 * scale, 12 * scale],
+		popupAnchor: [0, -12 * scale],
+	});
+
+	return icon;
+};
+
+const atm = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/atm.png',
+		iconSize: [12 * scale, 12 * scale],
+		iconAnchor: [6 * scale, 12 * scale],
+		popupAnchor: [0, -12 * scale],
 	});
 
 	return icon;
@@ -463,5 +496,8 @@ export {
 	dorm,
 	track,
 	volleyball,
+	soccer,
 	familymart,
+	aed,
+	atm,
 };

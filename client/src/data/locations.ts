@@ -28,6 +28,9 @@ import {
 	complex,
 	volleyball,
 	familymart,
+	aed,
+	atm,
+	soccer,
 } from '@components/Map/mapIcons';
 import { LatLngTuple, Icon } from 'leaflet';
 
@@ -42,6 +45,17 @@ type landmarkType = {
 	name: string;
 	coord: LatLngTuple;
 };
+
+type openHoursType = {
+	open: string;
+	close: string;
+};
+
+type convenienceStoreType = locationsType & {
+	openHours: openHoursType[];
+};
+
+type aedType = locationsType & { description?: string };
 
 const locations: locationsType[] = [
 	{
@@ -239,6 +253,11 @@ const courts: locationsType[] = [
 		coord: [22.73453757958894, 120.27741085989268],
 		icon: volleyball,
 	},
+	{
+		name: '足球場',
+		coord: [22.735361573905955, 120.2888670590058],
+		icon: soccer,
+	},
 ];
 
 const dorms: locationsType[] = [
@@ -254,38 +273,95 @@ const dorms: locationsType[] = [
 	},
 ];
 
-type openHoursType = {
-	open: string;
-	close: string;
-};
-
-type convenienceStoreType = locationsType & {
-	openHours: {
-		sunday: openHoursType;
-		monday: openHoursType;
-		tuesday: openHoursType;
-		wednesday: openHoursType;
-		thursday: openHoursType;
-		friday: openHoursType;
-		saturday: openHoursType;
-	};
-};
-
 const convenienceStores: convenienceStoreType[] = [
 	{
 		name: '第二宿舍全家便利商店',
 		coord: [22.73589696572668, 120.27843841083529],
 		icon: familymart,
-		openHours: {
-			monday: { open: '8:00', close: '23:00' },
-			tuesday: { open: '8:00', close: '23:00' },
-			wednesday: { open: '8:00', close: '23:00' },
-			thursday: { open: '8:00', close: '23:00' },
-			friday: { open: '8:00', close: '21:00' },
-			saturday: { open: '8:00', close: '21:00' },
-			sunday: { open: '8:00', close: '21:00' },
-		},
+		openHours: [
+			{ open: '8:00', close: '21:00' },
+			{ open: '8:00', close: '23:00' },
+			{ open: '8:00', close: '23:00' },
+			{ open: '8:00', close: '23:00' },
+			{ open: '8:00', close: '23:00' },
+			{ open: '8:00', close: '21:00' },
+			{ open: '8:00', close: '21:00' },
+		],
 	},
 ];
 
-export { locations, motorcycleEntrances, courts, dorms, convenienceStores };
+const aeds: aedType[] = [
+	{
+		name: '第二宿舍辦公室前AED',
+		coord: [22.736230342362745, 120.27848098964111],
+		icon: aed,
+	},
+	{
+		name: '體育大樓門口AED',
+		coord: [22.73427792387573, 120.27784943045705],
+		icon: aed,
+	},
+	{
+		name: '工學院AED',
+		coord: [22.732873652449584, 120.27593526912982],
+		icon: aed,
+	},
+	{
+		name: '洪四川門口AED',
+		coord: [22.731241672115246, 120.27905907272633],
+		icon: aed,
+	},
+	{
+		name: '學生活動中心一樓AED',
+		coord: [22.732449191646076, 120.28127689421547],
+		icon: aed,
+	},
+	{
+		name: '警衛室內AED',
+		coord: [22.732456855036407, 120.28458326901657],
+		icon: aed,
+	},
+	{
+		name: '法學院一樓大廳AED',
+		coord: [22.732579798447926, 120.2867855695157],
+		icon: aed,
+	},
+	{
+		name: '圖資館一樓外空間AED',
+		coord: [22.734252111484732, 120.28524061689986],
+		icon: aed,
+	},
+	{
+		name: '理學院門口AED',
+		coord: [22.73535131657417, 120.28591946586572],
+		icon: aed,
+	},
+	{
+		name: '人文院(學生自主學習空間內)AED',
+		coord: [22.735470421082223, 120.28154462868281],
+		icon: aed,
+	},
+];
+
+const atms: locationsType[] = [
+	{
+		name: '工學院ATM',
+		coord: [22.733095845303176, 120.27639706384512],
+		icon: atm,
+	},
+	{
+		name: '行政大樓ATM',
+		coord: [22.734099929739042, 120.28392643009857],
+		icon: atm,
+	},
+];
+
+export {
+	locations,
+	motorcycleEntrances,
+	courts,
+	dorms,
+	convenienceStores,
+	aeds,
+	atms,
+};

@@ -4,36 +4,21 @@ import Switch from 'react-switch';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import ClassroomAutocomplete from '../ClassroomAutocomplete';
+import { useNavStore, useSwStore } from '@app/states';
 
-const Menu = ({
-	architectSW,
-	aedSW,
-	atmSW,
-	ubikeSW,
-	buildingSW,
-	toggleArchitectSW,
-	toggleAedSW,
-	toggleAtmSW,
-	toggleUbikeSW,
-	toggleBuildingSW,
-	JumpTo,
-	navMode,
-  	setNavMode,
-}: {
-	architectSW: boolean;
-	aedSW: boolean;
-	atmSW: boolean;
-	ubikeSW: boolean;
-	buildingSW: boolean;
-	toggleArchitectSW: () => void;
-	toggleAtmSW: () => void;
-	toggleAedSW: () => void;
-	toggleUbikeSW: () => void;
-	toggleBuildingSW: () => void;
-	JumpTo: (spot: spotDataType | null) => void;
-	navMode: boolean;
-  	setNavMode: (v: boolean) => void;
-}) => {
+const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
+	const {
+		entranceSW,
+		courtSW,
+		buildingSW,
+		architectSW,
+		atmSW,
+		aedSW,
+		ubikeSW,
+		toggle,
+	} = useSwStore();
+	const { navMode, setNavMode } = useNavStore();
+
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 	const [aboutDialog, setAboutDialog] = useState<boolean>(false);
 
@@ -70,38 +55,70 @@ const Menu = ({
 					menuOpen ? 'sidebarClicked' : 'sidebar'
 				}`}
 			>
-				<p className='text-black text-base font-semibold mt-[100px] mb-4 self-start ml-8'>教室到底在哪...</p>
+				<p className='text-black font-semibold text-2xl mt-[100px] mb-4 self-start ml-8'>
+					教室到底在哪...
+				</p>
 				<div className='flex justify-center w-full mb-6'>
 					<div className='w-[80%]'>
-						<ClassroomAutocomplete onSelect={JumpTo} />
+						<ClassroomAutocomplete onSelect={jumpTo} />
 					</div>
 				</div>
-				<p className='text-black text-base font-semibold mb-4 self-start ml-8'>導航模式</p>
+				<p className='text-black font-semibold text-2xl mb-4 self-start ml-8'>
+					導航模式
+				</p>
 				<div className='flex items-center justify-between w-[80%] my-3'>
-				<p className='text-black text-sm'>導航</p>
-				<Switch checked={navMode} onChange={() => setNavMode(!navMode)} />
+					<p className='text-black text-lg'>導航</p>
+					<Switch
+						checked={navMode}
+						onChange={() => setNavMode(!navMode)}
+					/>
 				</div>
-				<p className='text-black text-base font-semibold mb-4 self-start ml-8'></p>
-				<p className='text-black text-base font-semibold mb-4 self-start ml-8'>想看什麼？</p>
+				<p className='text-black font-semibold text-2xl mb-4 self-start ml-8'></p>
+				<p className='text-black font-semibold text-2xl mb-4 self-start ml-8'>
+					想看什麼？
+				</p>
 				<div className='flex items-center justify-between w-[80%] my-3'>
-					<p className='text-black text-sm'>顯示大樓</p>
-					<Switch checked={buildingSW} onChange={toggleBuildingSW} />
-				</div>
-				<div className='flex items-center justify-between w-[80%] my-3'>
-					<p className='text-black text-sm'>顯示UBIKE站點</p>
-					<Switch checked={ubikeSW} onChange={toggleUbikeSW} />
-				</div>
-				<div className='flex items-center justify-between w-[80%] my-3'>
-					<p className='text-black text-sm'>顯示ATM</p>
-					<Switch checked={atmSW} onChange={toggleAtmSW} />
-				</div>
-				<div className='flex items-center justify-between w-[80%] my-3'>
-					<p className='text-black text-sm'>顯示AED</p>
-					<Switch checked={aedSW} onChange={toggleAedSW} />
+					<p className='text-black text-lg'>顯示大樓</p>
+					<Switch
+						checked={buildingSW}
+						onChange={() => toggle('buildingSW')}
+					/>
 				</div>
 				<div className='flex items-center justify-between w-[80%] my-3'>
-					<p className='text-black text-sm'>顯示裝置藝術</p>
-					<Switch checked={architectSW} onChange={toggleArchitectSW} />
+					<p className='text-black text-lg'>顯示UBIKE站點</p>
+					<Switch
+						checked={ubikeSW}
+						onChange={() => toggle('ubikeSW')}
+					/>
+				</div>
+				<div className='flex items-center justify-between w-[80%] my-3'>
+					<p className='text-black text-lg'>顯示機車停車場入口</p>
+					<Switch
+						checked={entranceSW}
+						onChange={() => toggle('entranceSW')}
+					/>
+				</div>
+				<div className='flex items-center justify-between w-[80%] my-3'>
+					<p className='text-black text-lg'>顯示球場</p>
+					<Switch
+						checked={courtSW}
+						onChange={() => toggle('courtSW')}
+					/>
+				</div>
+				<div className='flex items-center justify-between w-[80%] my-3'>
+					<p className='text-black text-lg'>顯示ATM</p>
+					<Switch checked={atmSW} onChange={() => toggle('atmSW')} />
+				</div>
+				<div className='flex items-center justify-between w-[80%] my-3'>
+					<p className='text-black text-lg'>顯示AED</p>
+					<Switch checked={aedSW} onChange={() => toggle('aedSW')} />
+				</div>
+				<div className='flex items-center justify-between w-[80%] my-3'>
+					<p className='text-black text-lg'>顯示裝置藝術</p>
+					<Switch
+						checked={architectSW}
+						onChange={() => toggle('architectSW')}
+					/>
 				</div>
 				<div className='absolute bottom-10'>
 					<Button

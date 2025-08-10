@@ -1,47 +1,37 @@
 'use client';
 
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import { parking, ubike } from './mapIcons';
-import {
-	courts,
-	locations,
-	motorcycleEntrances,
-	dorms,
-	convenienceStores,
-} from '@data/locations';
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import { useEffect, useRef, useState } from 'react';
 import Menu from '../Menu';
 import RoutingMachine from '@func/Routing';
-import { Button } from 'primereact/button';
 import { LatLngTuple } from 'leaflet';
 import SpotsAutocomplete from '../SpotsAutocomplete';
-import fetchUbike from '@func/UbikeInfo';
 import { CircleMarker, useMapEvents } from 'react-leaflet';
+import { useDestStore, useNavStore, useScaleStore } from '@app/states';
+import L from 'leaflet';
+import Dorms from './markers/Dorms';
+import Courts from './markers/Courts';
+import Entrances from './markers/Entrances';
+import ConvenienceStores from './markers/ConvenienceStores';
+import Ubikes from './markers/Ubikes';
+import Buildings from './markers/Buildings';
+import AEDs from './markers/AEDs';
+import ATMs from './markers/ATMs';
 
 const Map = () => {
-    //const time = new Date();
-    //const hour = time.getHours();
 	const mapRef = useRef<L.Map | null>(null);
 	const markerRefs = useRef<Record<string, L.Marker>>({});
+	const { navMode, setNavMode } = useNavStore();
+	const { dest, addDest, setDest } = useDestStore();
+	const { scale, setScale } = useScaleStore();
 
-	const [dest, setDest] = useState<LatLngTuple[]>([]);
-	const [scale, setScale] = useState<number>(0);
-	const [buildingSW, setBuildingSW] = useState<boolean>(true);
-	const [architectSW, setArchitectSW] = useState<boolean>(false);
-	const [aedSW, setAedSW] = useState<boolean>(false);
-	const [ubikeSW, setUbikeSW] = useState<boolean>(false);
-	const [atmSW, setAtmSW] = useState<boolean>(false);
-	const [ubikeData, setUbikeData] = useState<UBikeStation[] | null>(null);
-	const [navMode, setNavMode] = useState<boolean>(false);
 	const [freePoints, setFreePoints] = useState<LatLngTuple[]>([]);
 
 	useEffect(() => {
-		(async () => {
-			const data = await fetchUbike();
-			setUbikeData(data);
-		})();
-	}, []);
+		setDest([]);
+		setFreePoints([]);
+	}, [navMode, setDest]);
 
 	const MapComponent = () => {
 		const map = useMap();
@@ -51,10 +41,7 @@ const Map = () => {
 				const zoom = map.getZoom();
 				const baseZoom = 16;
 				const newScale = Math.pow(2, zoom - baseZoom);
-				setScale((prev) => {
-					if (prev !== newScale) return newScale;
-					return prev;
-				});
+				if (scale !== newScale) setScale(newScale);
 			};
 			map.on('zoom', onZoom);
 
@@ -68,38 +55,6 @@ const Map = () => {
 		return null;
 	};
 
-	const toggleArchitectSW = () => {
-		setArchitectSW(!architectSW);
-	};
-
-	const toggleAedSW = () => {
-		setAedSW(!aedSW);
-	};
-
-	const toggleAtmSW = () => {
-		setAtmSW(!atmSW);
-	};
-
-	const toggleUbikeSW = () => {
-		setUbikeSW(!ubikeSW);
-	};
-
-	const toggleBuildingSW = () => {
-		setBuildingSW(!buildingSW);
-	};
-
-	const addDest = (coord: LatLngTuple) => {
-		setDest((prev) => [...prev, coord]);
-		if(!navMode) setNavMode(true);
-		console.log(dest);
-	};
-
-	const rmDest = (coord: LatLngTuple) => {
-		setDest((prev) =>
-			prev.filter((d) => d[0] !== coord[0] || d[1] !== coord[1])
-		);
-	};
-
 	const clearRoute = () => {
 		setDest([]);
 		setFreePoints([]);
@@ -110,7 +65,7 @@ const Map = () => {
 		return arr.some(([lat, lng]) => lat === target[0] && lng === target[1]);
 	};
 
-	const JumpTo = (spot: spotDataType | null) => {
+	const jumpTo = (spot: spotDataType | null) => {
 		if (!spot) return;
 		const marker = markerRefs.current[spot.name];
 		if (!mapRef.current || marker?.isPopupOpen()) return;
@@ -132,11 +87,13 @@ const Map = () => {
 				onClick(e.latlng);
 			},
 		});
+
 		return null;
 	};
 
 	return (
 		<div className='w-full h-[100vh]'>
+			<Menu jumpTo={jumpTo} />
 			<MapContainer
 				center={[22.73443796905454, 120.28443432939359]}
 				minZoom={15}
@@ -147,7 +104,7 @@ const Map = () => {
 				}}
 			>
 				<MapComponent />
-				<SpotsAutocomplete onSelect={JumpTo} />
+				<SpotsAutocomplete onSelect={jumpTo} />
 				<RoutingMachine destinations={dest} />
 				{navMode && (
 					<MapClickHandler
@@ -164,8 +121,8 @@ const Map = () => {
 									...prev.slice(1),
 									[latlng.lat, latlng.lng],
 								]);
-								setDest((prev) => [
-									...prev.slice(1),
+								setDest([
+									...dest.slice(1),
 									[latlng.lat, latlng.lng],
 								]);
 							} else {
@@ -173,10 +130,7 @@ const Map = () => {
 									...prev,
 									[latlng.lat, latlng.lng],
 								]);
-								setDest((prev) => [
-									...prev,
-									[latlng.lat, latlng.lng],
-								]);
+								addDest([latlng.lat, latlng.lng]);
 							}
 						}}
 					/>
@@ -199,277 +153,17 @@ const Map = () => {
 					/>
 				))}
 
-				{dorms.map(({ name, coord, icon }, idx) => {
-					return (
-						<Marker key={idx} position={coord} icon={icon(scale)}>
-							<Popup>
-								<h1>{name}</h1>
-								{
-									<div className='flex flex-col'>
-										{coordExists(dest, coord) ? (
-											<Button
-												className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
-												label='刪除目的'
-												onClick={() => rmDest(coord)}
-											/>
-										) : (
-											<Button
-												className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
-												label='新增目的'
-												onClick={() => addDest(coord)}
-											/>
-										)}
-									</div>
-								}
-							</Popup>
-						</Marker>
-					);
-				})}
-
-				{courts.map(({ name, coord, icon }, idx) => {
-					return (
-						<Marker key={idx} position={coord} icon={icon(scale)}>
-							<Popup>
-								<h1>{name}</h1>
-								{
-									<div className='flex flex-col'>
-										{coordExists(dest, coord) ? (
-											<Button
-												className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
-												label='刪除目的'
-												onClick={() => rmDest(coord)}
-											/>
-										) : (
-											<Button
-												className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
-												label='新增目的'
-												onClick={() => addDest(coord)}
-											/>
-										)}
-									</div>
-								}
-							</Popup>
-						</Marker>
-					);
-				})}
-
-				{motorcycleEntrances.map(({ name, coord }, idx) => {
-					return (
-						<Marker
-							key={idx}
-							position={coord}
-							icon={parking(scale)}
-						>
-							<Popup>
-								{
-									<div className='flex flex-col'>
-										<h1>{name}</h1>
-										{coordExists(dest, coord) ? (
-											<Button
-												className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
-												label='刪除目的'
-												onClick={() => rmDest(coord)}
-											/>
-										) : (
-											<Button
-												className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
-												label='新增目的'
-												onClick={() => addDest(coord)}
-											/>
-										)}
-									</div>
-								}
-							</Popup>
-						</Marker>
-					);
-				})}
-
-				{convenienceStores.map(
-					({ name, coord, icon, openHours }, idx) => {
-						return (
-							<Marker
-								key={idx}
-								position={coord}
-								zIndexOffset={9999}
-								icon={icon(scale)}
-							>
-								<Popup>
-									{
-										<div className='flex flex-col'>
-											<h1 className='text-xl'>{name}</h1>
-											<h2 className={`text-[1rem] text-center`}>
-												營業中
-											</h2>
-											<p>
-												營業時間:
-												<br />
-												<i>星期一 </i>
-												{openHours.monday.open}~{openHours.monday.close}
-												<br />
-												<i>星期二 </i>{' '}
-												{openHours.tuesday.open}~{openHours.tuesday.close}
-												<br />
-												<i>星期三 </i>{' '}
-												{openHours.wednesday.open}~{openHours.wednesday.close}
-												<br />
-												<i>星期四 </i>{' '}
-												{openHours.thursday.open}~{openHours.thursday.close}
-												<br />
-												<i>星期五 </i>{' '}
-												{openHours.friday.open}~{openHours.friday.close}
-												<br />
-												<i>星期六 </i>{' '}
-												{openHours.saturday.open}~{openHours.saturday.close}
-												<br />
-												<i>星期日 </i>{' '}
-												{openHours.sunday.open}~{openHours.sunday.close}
-											</p>
-											{coordExists(dest, coord) ? (
-												<Button
-													className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
-													label='刪除目的'
-													onClick={() =>
-														rmDest(coord)
-													}
-												/>
-											) : (
-												<Button
-													className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
-													label='新增目的'
-													onClick={() =>
-														addDest(coord)
-													}
-												/>
-											)}
-										</div>
-									}
-								</Popup>
-							</Marker>
-						);
-					}
-				)}
-
-				{ubikeData &&
-					ubikeData.map(
-						({ sna, lat, lng, bemp, act, sbi_detail }, idx) => {
-							if (!ubikeSW) return null;
-							return (
-								<Marker
-									key={idx}
-									position={[
-										parseFloat(lat),
-										parseFloat(lng),
-									]}
-									icon={ubike(scale)}
-									zIndexOffset={999}
-								>
-									<Popup>
-										{act ? (
-											<div className='flex flex-col'>
-												<h1 className='text-lg whitespace-nowrap'>
-													{sna.replace(
-														'YouBike2.0_',
-														''
-													)}
-												</h1>
-												<p className='text-md'>
-													可還數量: {bemp}
-													<br />
-													普通車: {sbi_detail.yb2}
-													<br />
-													{parseInt(sbi_detail.eyb) >
-													0
-														? `電輔車: ${sbi_detail.eyb}`
-														: null}
-												</p>
-												{coordExists(dest, [
-													parseFloat(lat),
-													parseFloat(lng),
-												]) ? (
-													<Button
-														className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
-														label='刪除目的'
-														onClick={() =>
-															rmDest([
-																parseFloat(lat),
-																parseFloat(lng),
-															])
-														}
-													/>
-												) : (
-													<Button
-														className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
-														label='新增目的'
-														onClick={() =>
-															addDest([
-																parseFloat(lat),
-																parseFloat(lng),
-															])
-														}
-													/>
-												)}
-											</div>
-										) : (
-											<h1>此站未運營</h1>
-										)}
-									</Popup>
-								</Marker>
-							);
-						}
-					)}
-
-				{locations.map(({ name, coord, icon, type }, idx) => {
-					if (!buildingSW && type === 'building') return null;
-					if (!architectSW && type === 'architect') return null;
-					return (
-						<Marker
-							key={idx}
-							position={coord}
-							icon={icon(
-								scale * (type === 'architect' ? 0.6 : 1.2)
-							)}
-							ref={(ref) => {
-								if (ref) markerRefs.current[name] = ref;
-							}}
-							zIndexOffset={type === 'architect' ? 100 : 0}
-						>
-							<Popup>
-								<div className='flex flex-col'>
-									{name}
-									{dest.includes(coord) ? (
-										<Button
-											className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
-											label='刪除目的'
-											onClick={() => rmDest(coord)}
-										/>
-									) : (
-										<Button
-											className='bg-blue-500 text-white p-2 m-2 rounded-full opacity-80 hover:opacity-100 transition-opacity'
-											label='新增目的'
-											onClick={() => addDest(coord)}
-										/>
-									)}
-								</div>
-							</Popup>
-						</Marker>
-					);
-				})}
+				<Buildings markerRefs={markerRefs} />
+				<Dorms />
+				<Courts />
+				<Entrances />
+				<ConvenienceStores />
+				<Ubikes />
+				<AEDs />
+                <ATMs />
+                
 			</MapContainer>
-			<Menu
-				architectSW={architectSW}
-				aedSW={aedSW}
-				atmSW={atmSW}
-				ubikeSW={ubikeSW}
-				buildingSW={buildingSW}
-				toggleArchitectSW={toggleArchitectSW}
-				toggleAedSW={toggleAedSW}
-				toggleAtmSW={toggleAtmSW}
-				toggleUbikeSW={toggleUbikeSW}
-				toggleBuildingSW={toggleBuildingSW}
-				JumpTo={JumpTo}
-				navMode={navMode}
-				setNavMode={setNavMode}
-			/>
+
 			{dest.length > 0 && (
 				<button
 					aria-label='結束導航'
