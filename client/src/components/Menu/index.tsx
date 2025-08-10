@@ -7,13 +7,34 @@ import ClassroomAutocomplete from '../ClassroomAutocomplete';
 
 const Menu = ({
 	architectSW,
+	aedSW,
+	atmSW,
+	ubikeSW,
+	buildingSW,
 	toggleArchitectSW,
+	toggleAedSW,
+	toggleAtmSW,
+	toggleUbikeSW,
+	toggleBuildingSW,
+	JumpTo,
+	navMode,
+  	setNavMode,
 }: {
 	architectSW: boolean;
+	aedSW: boolean;
+	atmSW: boolean;
+	ubikeSW: boolean;
+	buildingSW: boolean;
 	toggleArchitectSW: () => void;
+	toggleAtmSW: () => void;
+	toggleAedSW: () => void;
+	toggleUbikeSW: () => void;
+	toggleBuildingSW: () => void;
+	JumpTo: (spot: spotDataType | null) => void;
+	navMode: boolean;
+  	setNavMode: (v: boolean) => void;
 }) => {
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
-	const [classroom, setClassroom] = useState<string>('');
 	const [aboutDialog, setAboutDialog] = useState<boolean>(false);
 
 	const toggleClick = () => {
@@ -45,22 +66,42 @@ const Menu = ({
 				></div>
 			</div>
 			<div
-				className={`fixed flex items-center flex-col bg-white top-0 right-0 w-[300px] h-[100vh] z-[1000] opacity-80 ${
+				className={`fixed flex items-center flex-col bg-white top-0 right-0 w-[90vw] max-w-[320px] h-[100vh] z-[1000] opacity-80 ${
 					menuOpen ? 'sidebarClicked' : 'sidebar'
 				}`}
 			>
-				<div className='flex items-center mt-[100px]'>
-					<p className='text-black text-sm whitespace-nowrap p-1'>
-						搜尋教室
-					</p>
-                    <ClassroomAutocomplete />
+				<p className='text-black text-base font-semibold mt-[100px] mb-4 self-start ml-8'>教室到底在哪...</p>
+				<div className='flex justify-center w-full mb-6'>
+					<div className='w-[80%]'>
+						<ClassroomAutocomplete onSelect={JumpTo} />
+					</div>
 				</div>
-				<div className='flex items-center my-5'>
-					<p className='text-black text-sm p-1'>顯示裝置藝術</p>
-					<Switch
-						checked={architectSW}
-						onChange={toggleArchitectSW}
-					/>
+				<p className='text-black text-base font-semibold mb-4 self-start ml-8'>導航模式</p>
+				<div className='flex items-center justify-between w-[80%] my-3'>
+				<p className='text-black text-sm'>導航</p>
+				<Switch checked={navMode} onChange={() => setNavMode(!navMode)} />
+				</div>
+				<p className='text-black text-base font-semibold mb-4 self-start ml-8'></p>
+				<p className='text-black text-base font-semibold mb-4 self-start ml-8'>想看什麼？</p>
+				<div className='flex items-center justify-between w-[80%] my-3'>
+					<p className='text-black text-sm'>顯示大樓</p>
+					<Switch checked={buildingSW} onChange={toggleBuildingSW} />
+				</div>
+				<div className='flex items-center justify-between w-[80%] my-3'>
+					<p className='text-black text-sm'>顯示UBIKE站點</p>
+					<Switch checked={ubikeSW} onChange={toggleUbikeSW} />
+				</div>
+				<div className='flex items-center justify-between w-[80%] my-3'>
+					<p className='text-black text-sm'>顯示ATM</p>
+					<Switch checked={atmSW} onChange={toggleAtmSW} />
+				</div>
+				<div className='flex items-center justify-between w-[80%] my-3'>
+					<p className='text-black text-sm'>顯示AED</p>
+					<Switch checked={aedSW} onChange={toggleAedSW} />
+				</div>
+				<div className='flex items-center justify-between w-[80%] my-3'>
+					<p className='text-black text-sm'>顯示裝置藝術</p>
+					<Switch checked={architectSW} onChange={toggleArchitectSW} />
 				</div>
 				<div className='absolute bottom-10'>
 					<Button

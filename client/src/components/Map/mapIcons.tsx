@@ -1,11 +1,4 @@
-import L, { Icon, LatLngTuple } from 'leaflet';
-
-type locationsType = {
-	name: string;
-	coord: LatLngTuple;
-	icon: (scale: number) => Icon;
-	type: string;
-};
+import L, { Icon } from 'leaflet';
 
 //  ---------- Buildings ----------
 const gate = (scale: number) => {
@@ -85,12 +78,23 @@ const humanities = (scale: number) => {
 	return icon;
 };
 
+const complex = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/complex.png',
+		iconSize: [53.76 * scale, 27.52 * scale],
+		iconAnchor: [26.88 * scale, 27.52 * scale],
+		popupAnchor: [0, -27.52 * scale],
+	});
+
+	return icon;
+};
+
 const eng = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/eng.png',
-		iconSize: [117 * scale, 29 * scale],
-		iconAnchor: [58.5 * scale, 29 * scale],
-		popupAnchor: [0, -29 * scale],
+		iconSize: [53.76 * scale, 27.52 * scale],
+		iconAnchor: [26.88 * scale, 27.52 * scale],
+		popupAnchor: [0, -27.52 * scale],
 	});
 
 	return icon;
@@ -119,13 +123,44 @@ const business = (scale: number) => {
 };
 
 //  ---------- Architectures ----------
+type architectDimensionsType = {
+	windmill: [number, number];
+	dog: [number, number];
+	river: [number, number];
+	key: [number, number];
+	pond: [number, number];
+	plantation: [number, number];
+	paulownia: [number, number];
+	literature: [number, number];
+	communication: [number, number];
+	poem: [number, number];
+};
+
+const architectDimensions: architectDimensionsType = {
+	windmill: [16.38, 34.65],
+	dog: [16, 16],
+	river: [49, 18.2],
+	key: [59, 32],
+	pond: [76, 35],
+	plantation: [82, 17],
+	paulownia: [40, 35],
+    literature: [23.1, 37.8],
+    communication: [69, 34], 
+    poem: [53.9, 14.7]
+};
 
 const windmill = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/windmill.png',
-		iconSize: [26 * scale, 55 * scale],
-		iconAnchor: [13 * scale, 55 * scale],
-		popupAnchor: [0, -55 * scale],
+		iconSize: [
+			architectDimensions.windmill[0] * scale,
+			architectDimensions.windmill[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.windmill[0] / 2) * scale,
+			architectDimensions.windmill[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.windmill[1] * scale],
 	});
 
 	return icon;
@@ -134,9 +169,15 @@ const windmill = (scale: number) => {
 const dog = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/dog.png',
-		iconSize: [31 * scale, 31 * scale],
-		iconAnchor: [15.5 * scale, 31 * scale],
-		popupAnchor: [0, -31 * scale],
+		iconSize: [
+			architectDimensions.dog[0] * scale,
+			architectDimensions.dog[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.dog[0] / 2) * scale,
+			architectDimensions.dog[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.dog[1] * scale],
 	});
 
 	return icon;
@@ -145,9 +186,15 @@ const dog = (scale: number) => {
 const river = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/river.png',
-		iconSize: [70 * scale, 26 * scale],
-		iconAnchor: [35 * scale, 26 * scale],
-		popupAnchor: [0, -26 * scale],
+		iconSize: [
+			architectDimensions.river[0] * scale,
+			architectDimensions.river[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.river[0] / 2) * scale,
+			architectDimensions.river[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.river[1] * scale],
 	});
 
 	return icon;
@@ -156,9 +203,15 @@ const river = (scale: number) => {
 const key = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/key.png',
-		iconSize: [59 * scale, 32 * scale],
-		iconAnchor: [29.5 * scale, 32 * scale],
-		popupAnchor: [0, -32 * scale],
+		iconSize: [
+			architectDimensions.key[0] * scale,
+			architectDimensions.key[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.key[0] / 2) * scale,
+			architectDimensions.key[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.key[1] * scale],
 	});
 
 	return icon;
@@ -167,9 +220,15 @@ const key = (scale: number) => {
 const paulownia = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/paulownia.png',
-		iconSize: [40 * scale, 35 * scale],
-		iconAnchor: [20 * scale, 35 * scale],
-		popupAnchor: [0, -35 * scale],
+		iconSize: [
+			architectDimensions.paulownia[0] * scale,
+			architectDimensions.paulownia[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.paulownia[0] / 2) * scale,
+			architectDimensions.paulownia[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.paulownia[1] * scale],
 	});
 
 	return icon;
@@ -178,9 +237,15 @@ const paulownia = (scale: number) => {
 const pond = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/pond.png',
-		iconSize: [76 * scale, 35 * scale],
-		iconAnchor: [38 * scale, 35 * scale],
-		popupAnchor: [0, -35 * scale],
+		iconSize: [
+			architectDimensions.pond[0] * scale,
+			architectDimensions.pond[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.pond[0] / 2) * scale,
+			architectDimensions.pond[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.pond[1] * scale],
 	});
 
 	return icon;
@@ -189,9 +254,15 @@ const pond = (scale: number) => {
 const plantation = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/plantation.png',
-		iconSize: [82 * scale, 17 * scale],
-		iconAnchor: [41 * scale, 17 * scale],
-		popupAnchor: [0, -17 * scale],
+		iconSize: [
+			architectDimensions.plantation[0] * scale,
+			architectDimensions.plantation[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.plantation[0] / 2) * scale,
+			architectDimensions.plantation[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.plantation[1] * scale],
 	});
 
 	return icon;
@@ -200,9 +271,15 @@ const plantation = (scale: number) => {
 const literature = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/literature.png',
-		iconSize: [33 * scale, 54 * scale],
-		iconAnchor: [16.5 * scale, 54 * scale],
-		popupAnchor: [0, -54 * scale],
+		iconSize: [
+			architectDimensions.literature[0] * scale,
+			architectDimensions.literature[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.literature[0] / 2) * scale,
+			architectDimensions.literature[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.literature[1] * scale],
 	});
 
 	return icon;
@@ -211,9 +288,15 @@ const literature = (scale: number) => {
 const communication = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/icon.png',
-		iconSize: [69 * scale, 34 * scale],
-		iconAnchor: [34.5 * scale, 34 * scale],
-		popupAnchor: [0, -34 * scale],
+		iconSize: [
+			architectDimensions.communication[0] * scale,
+			architectDimensions.communication[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.communication[0] / 2) * scale,
+			architectDimensions.communication[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.communication[1] * scale],
 	});
 
 	return icon;
@@ -222,136 +305,163 @@ const communication = (scale: number) => {
 const poem = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/poem.png',
-		iconSize: [77 * scale, 21 * scale],
-		iconAnchor: [38.5 * scale, 21 * scale],
-		popupAnchor: [0, -21 * scale],
+		iconSize: [
+			architectDimensions.poem[0] * scale,
+			architectDimensions.poem[1] * scale,
+		],
+		iconAnchor: [
+			(architectDimensions.poem[0] / 2) * scale,
+			architectDimensions.poem[1] * scale,
+		],
+		popupAnchor: [0, -architectDimensions.poem[1] * scale],
 	});
 
 	return icon;
 };
 
-const locations: locationsType[] = [
-	{
-		name: '校門口',
-		coord: [22.732428730087655, 120.28461166106801],
-		icon: gate,
-		type: 'building',
-	},
-	{
-		name: '圖資大樓',
-		coord: [22.73414569608387, 120.28518432455931],
-		icon: lib,
-		type: 'building',
-	},
-	{
-		name: '行政大樓',
-		coord: [22.73415305080536, 120.28368835438248],
-		icon: exec,
-		type: 'building',
-	},
-	{
-		name: '運健休大樓',
-		coord: [22.734222233746483, 120.27813130917919],
-		icon: sports,
-		type: 'building',
-	},
-	{
-		name: '風雨球場',
-		coord: [22.73101069169259, 120.27957527870095],
-		icon: court,
-		type: 'building',
-	},
-	{
-		name: '學生活動中心',
-		coord: [22.732165183210903, 120.28127642135759],
-		icon: activity,
-		type: 'building',
-	},
-	{
-		name: '人文院',
-		coord: [22.735200265860797, 120.28150837452102],
-		icon: humanities,
-		type: 'building',
-	},
-	{
-		// name: '工院綜合大樓',
-		name: '工學院',
-		coord: [22.731905894048207, 120.2766975978638],
-		icon: eng,
-		type: 'building',
-	},
-	{
-		name: '理院',
-		coord: [22.73544149855268, 120.28608878661407],
-		icon: science,
-		type: 'building',
-	},
-	{
-		name: '管法院',
-		coord: [22.732534910380707, 120.28753053179393],
-		icon: business,
-		type: 'building',
-	},
-	{
-		name: '風車',
-		coord: [22.73266358116765, 120.28047063049529],
-		icon: windmill,
-		type: 'architect',
-	},
-	{
-		name: '阿呆',
-		coord: [22.731563086119646, 120.28047648540796],
-		icon: dog,
-		type: 'architect',
-	},
-	{
-		name: '記憶河流',
-		coord: [22.734759648038576, 120.28207252038025],
-		icon: river,
-		type: 'architect',
-	},
-	{
-		name: '解鎖大地',
-		coord: [22.734009126308436, 120.27880598633568],
-		icon: key,
-		type: 'architect',
-	},
-	{
-		name: '莿桐',
-		coord: [22.732607303379705, 120.27798367929977],
-		icon: paulownia,
-		type: 'architect',
-	},
-	{
-		name: '生態池',
-		coord: [22.733145623087292, 120.28138260935852],
-		icon: pond,
-		type: 'architect',
-	},
-	{
-		name: '根植大地',
-		coord: [22.733293784811806, 120.27827688906338],
-		icon: plantation,
-		type: 'architect',
-	},
-	{
-		name: '書香',
-		coord: [22.734789530691216, 120.28802986340852],
-		icon: literature,
-		type: 'architect',
-	},
-	{
-		name: '對話',
-		coord: [22.73241201312254, 120.28754475241776],
-		icon: communication,
-		type: 'architect',
-	},
-	{
-		name: '大地樂章',
-		coord: [22.733691170748294, 120.28611723353849],
-		icon: poem,
-		type: 'architect',
-	},
-];
+//  ---------- Miscellaneous ----------
+const parkingIconSize = 12;
 
-export default locations;
+const ubike = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/bike.png',
+		iconSize: [10 * scale, 10 * scale],
+		iconAnchor: [5 * scale, 10 * scale],
+		popupAnchor: [0, -10 * scale],
+	});
+
+	return icon;
+};
+
+const parking = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/parking.png',
+		iconSize: [parkingIconSize * scale, parkingIconSize * scale],
+		iconAnchor: [(parkingIconSize / 2) * scale, parkingIconSize * scale],
+		popupAnchor: [0, -parkingIconSize * scale],
+	});
+
+	return icon;
+};
+
+const basketball = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/basketball.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const tennis = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/tennis.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const woodball = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/woodball.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const volleyball = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/volleyball.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const baseball = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/baseball.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const track = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/track.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const dorm = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/dorm.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+const familymart = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/familymart.png',
+		iconSize: [8 * scale, 8 * scale],
+		iconAnchor: [4 * scale, 8 * scale],
+		popupAnchor: [0, -8 * scale],
+	});
+
+	return icon;
+};
+
+export {
+	ubike,
+	parking,
+	gate,
+	lib,
+	exec,
+	sports,
+	court,
+	activity,
+	humanities,
+	business,
+	complex,
+	eng,
+	science,
+	windmill,
+	pond,
+	dog,
+	river,
+	key,
+	paulownia,
+	plantation,
+	literature,
+	communication,
+	poem,
+	basketball,
+	tennis,
+	woodball,
+	baseball,
+	dorm,
+	track,
+	volleyball,
+	familymart,
+};

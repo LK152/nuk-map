@@ -2,14 +2,12 @@
 
 import dynamic from 'next/dynamic';
 const Map = dynamic(
-	() => import('@/components/Map').then((component) => component),
+	() => import('@components/Map').then((component) => component),
 	{ ssr: false }
 );
 
 const Home = () => {
-	return (
-			<Map />
-	);
+	return <Map />;
 };
 
 export default Home;
