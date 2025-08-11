@@ -29,9 +29,17 @@ const Map = () => {
 	const [freePoints, setFreePoints] = useState<LatLngTuple[]>([]);
 
 	useEffect(() => {
-		setDest([]);
-		setFreePoints([]);
+		if (!navMode) {
+			setDest([]);
+			setFreePoints([]);
+		}
 	}, [navMode, setDest]);
+
+	useEffect(() => {
+		if (!navMode && dest.length > 0) {
+			setNavMode(true);
+		}
+	}, [dest, navMode, setNavMode]);
 
 	const MapComponent = () => {
 		const map = useMap();
