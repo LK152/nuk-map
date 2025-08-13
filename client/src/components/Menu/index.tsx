@@ -134,6 +134,12 @@ const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
 							setAboutDialog(false);
 						}}
 					>
+						<pre className="font-mono text-sm whitespace-pre-wrap">
+                        {`FENG  | 後端勇者  | 力量: ★★★  | 智慧: ★★★★★  | 技能: 程式魔法、資料結構斬擊
+                          貓貓  | UI/UX魔法師 | 美感: ★★★★★ | 技術: ★★★  | 技能: 介面附魔、色彩調和
+                          LK  | 前端刺客  | 速度: ★★★★ | 靈活: ★★★★★ | 技能: 動畫連擊、互動暗殺
+                          JERRY   | 躺分大魔王  | 防禦: ★★★★ | 臉皮: ★★★★ | 技能: 輔助回血、戰場奶媽}
+                            </pre>
 						<p className='m-0'>
 							Lorem ipsum dolor sit amet, consectetur adipiscing
 							elit, sed do eiusmod tempor incididunt ut labore et
