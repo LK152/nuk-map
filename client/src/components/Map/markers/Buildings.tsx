@@ -1,4 +1,4 @@
-import { useDestStore, useScaleStore, useSwStore } from '@app/states';
+import { useDestStore, useScaleStore, useSwStore } from '../../../lib/states';
 import { locations } from '@data/locations';
 import { Button } from 'primereact/button';
 import { RefObject } from 'react';

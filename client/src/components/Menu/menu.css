@@ -32,6 +32,13 @@
 	transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
+@media (max-width: 440px) {
+	.sidebar {
+		transform: translateX(100vw);
+		transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+	}
+}
+
 .sidebarClicked {
 	transform: translateX(0px);
 	transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);

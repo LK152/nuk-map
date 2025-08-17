@@ -1,12 +1,44 @@
 import L, { Icon } from 'leaflet';
 
 //  ---------- Buildings ----------
+type buildingsDimensionsType = {
+	gate: [number, number];
+	lib: [number, number];
+	exec: [number, number];
+	sports: [number, number];
+	court: [number, number];
+	activity: [number, number];
+	humanities: [number, number];
+	complexEng: [number, number];
+	science: [number, number];
+	businessLaw: [number, number];
+};
+
+const buildingDimensions: buildingsDimensionsType = {
+	gate: [48, 35],
+	lib: [45, 21],
+	exec: [48, 22],
+	sports: [52, 22],
+	court: [72, 35],
+	activity: [55, 16],
+	humanities: [53, 28],
+	complexEng: [53.76, 27.52],
+	science: [40, 24],
+	businessLaw: [42, 29],
+};
+
 const gate = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/gate.png',
-		iconSize: [48 * scale, 35 * scale],
-		iconAnchor: [24 * scale, 35 * scale],
-		popupAnchor: [0, -35 * scale],
+		iconSize: [
+			buildingDimensions.gate[0] * scale,
+			buildingDimensions.gate[1] * scale,
+		],
+		iconAnchor: [
+			(buildingDimensions.gate[0] / 2) * scale,
+			buildingDimensions.gate[1] * scale,
+		],
+		popupAnchor: [0, -buildingDimensions.gate[1] * scale],
 	});
 
 	return icon;
@@ -15,9 +47,15 @@ const gate = (scale: number) => {
 const lib = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/lib.png',
-		iconSize: [45 * scale, 21 * scale],
-		iconAnchor: [22 * scale, 21 * scale],
-		popupAnchor: [0, -21 * scale],
+		iconSize: [
+			buildingDimensions.lib[0] * scale,
+			buildingDimensions.lib[1] * scale,
+		],
+		iconAnchor: [
+			(buildingDimensions.lib[0] / 2) * scale,
+			buildingDimensions.lib[1] * scale,
+		],
+		popupAnchor: [0, -buildingDimensions.lib[1] * scale],
 	});
 
 	return icon;
@@ -26,9 +64,15 @@ const lib = (scale: number) => {
 const exec = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/exec.png',
-		iconSize: [48 * scale, 22 * scale],
-		iconAnchor: [24 * scale, 22 * scale],
-		popupAnchor: [0, -22 * scale],
+		iconSize: [
+			buildingDimensions.exec[0] * scale,
+			buildingDimensions.exec[1] * scale,
+		],
+		iconAnchor: [
+			(buildingDimensions.exec[0] / 2) * scale,
+			buildingDimensions.exec[1] * scale,
+		],
+		popupAnchor: [0, -buildingDimensions.exec[1] * scale],
 	});
 
 	return icon;
@@ -37,9 +81,15 @@ const exec = (scale: number) => {
 const sports = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/sports.png',
-		iconSize: [52 * scale, 22 * scale],
-		iconAnchor: [26 * scale, 22 * scale],
-		popupAnchor: [0, -22 * scale],
+		iconSize: [
+			buildingDimensions.sports[0] * scale,
+			buildingDimensions.sports[1] * scale,
+		],
+		iconAnchor: [
+			(buildingDimensions.sports[0] / 2) * scale,
+			buildingDimensions.sports[1] * scale,
+		],
+		popupAnchor: [0, -buildingDimensions.sports[1] * scale],
 	});
 
 	return icon;
@@ -48,9 +98,15 @@ const sports = (scale: number) => {
 const court = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/court.png',
-		iconSize: [72 * scale, 35 * scale],
-		iconAnchor: [36 * scale, 35 * scale],
-		popupAnchor: [0, -35 * scale],
+		iconSize: [
+			buildingDimensions.court[0] * scale,
+			buildingDimensions.court[1] * scale,
+		],
+		iconAnchor: [
+			(buildingDimensions.court[0] / 2) * scale,
+			buildingDimensions.court[1] * scale,
+		],
+		popupAnchor: [0, -buildingDimensions.court[1] * scale],
 	});
 
 	return icon;
@@ -59,9 +115,15 @@ const court = (scale: number) => {
 const activity = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/activity.png',
-		iconSize: [55 * scale, 16 * scale],
-		iconAnchor: [28 * scale, 16 * scale],
-		popupAnchor: [0, -16 * scale],
+		iconSize: [
+			buildingDimensions.activity[0] * scale,
+			buildingDimensions.activity[1] * scale,
+		],
+		iconAnchor: [
+			(buildingDimensions.activity[0] / 2) * scale,
+			buildingDimensions.activity[1] * scale,
+		],
+		popupAnchor: [0, -buildingDimensions.activity[1] * scale],
 	});
 
 	return icon;
@@ -70,9 +132,15 @@ const activity = (scale: number) => {
 const humanities = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/humanities.png',
-		iconSize: [53 * scale, 28 * scale],
-		iconAnchor: [26.5 * scale, 28 * scale],
-		popupAnchor: [0, -28 * scale],
+		iconSize: [
+			buildingDimensions.humanities[0] * scale,
+			buildingDimensions.humanities[1] * scale,
+		],
+		iconAnchor: [
+			(buildingDimensions.humanities[0] / 2) * scale,
+			buildingDimensions.humanities[1] * scale,
+		],
+		popupAnchor: [0, -buildingDimensions.humanities[1] * scale],
 	});
 
 	return icon;
@@ -81,9 +149,15 @@ const humanities = (scale: number) => {
 const complex = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/complex.png',
-		iconSize: [53.76 * scale, 27.52 * scale],
-		iconAnchor: [26.88 * scale, 27.52 * scale],
-		popupAnchor: [0, -27.52 * scale],
+		iconSize: [
+			buildingDimensions.complexEng[0] * scale,
+			buildingDimensions.complexEng[1] * scale,
+		],
+		iconAnchor: [
+			(buildingDimensions.complexEng[0] / 2) * scale,
+			buildingDimensions.complexEng[1] * scale,
+		],
+		popupAnchor: [0, -buildingDimensions.complexEng[1] * scale],
 	});
 
 	return icon;
@@ -92,9 +166,15 @@ const complex = (scale: number) => {
 const eng = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/eng.png',
-		iconSize: [53.76 * scale, 27.52 * scale],
-		iconAnchor: [26.88 * scale, 27.52 * scale],
-		popupAnchor: [0, -27.52 * scale],
+		iconSize: [
+			buildingDimensions.complexEng[0] * scale,
+			buildingDimensions.complexEng[1] * scale,
+		],
+		iconAnchor: [
+			(buildingDimensions.complexEng[0] / 2) * scale,
+			buildingDimensions.complexEng[1] * scale,
+		],
+		popupAnchor: [0, -buildingDimensions.complexEng[1] * scale],
 	});
 
 	return icon;
@@ -103,9 +183,15 @@ const eng = (scale: number) => {
 const science = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/science.png',
-		iconSize: [40 * scale, 24 * scale],
-		iconAnchor: [20 * scale, 24 * scale],
-		popupAnchor: [0, -24 * scale],
+		iconSize: [
+			buildingDimensions.science[0] * scale,
+			buildingDimensions.science[1] * scale,
+		],
+		iconAnchor: [
+			(buildingDimensions.science[0] / 2) * scale,
+			buildingDimensions.science[1] * scale,
+		],
+		popupAnchor: [0, -buildingDimensions.science[1] * scale],
 	});
 
 	return icon;
@@ -114,9 +200,32 @@ const science = (scale: number) => {
 const business = (scale: number) => {
 	const icon: Icon = L.icon({
 		iconUrl: '/icons/business.png',
-		iconSize: [74 * scale, 23 * scale],
-		iconAnchor: [37 * scale, 23 * scale],
-		popupAnchor: [0, -23 * scale],
+		iconSize: [
+			buildingDimensions.businessLaw[0] * scale,
+			buildingDimensions.businessLaw[1] * scale,
+		],
+		iconAnchor: [
+			(buildingDimensions.businessLaw[0] / 2) * scale,
+			buildingDimensions.businessLaw[1] * scale,
+		],
+		popupAnchor: [0, -buildingDimensions.businessLaw[1] * scale],
+	});
+
+	return icon;
+};
+
+const law = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/icons/law.png',
+		iconSize: [
+			buildingDimensions.businessLaw[0] * scale,
+			buildingDimensions.businessLaw[1] * scale,
+		],
+		iconAnchor: [
+			(buildingDimensions.businessLaw[0] / 2) * scale,
+			buildingDimensions.businessLaw[1] * scale,
+		],
+		popupAnchor: [0, -buildingDimensions.businessLaw[1] * scale],
 	});
 
 	return icon;
@@ -476,6 +585,7 @@ export {
 	activity,
 	humanities,
 	business,
+	law,
 	complex,
 	eng,
 	science,

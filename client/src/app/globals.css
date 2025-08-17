@@ -5,11 +5,39 @@
 	--foreground: #171717;
 }
 
+@font-face {
+	font-family: WenKaiMonoTCLight;
+	font-style: normal;
+	font-weight: 300;
+	font-display: swap;
+	src: url('/fonts/LXGWWenKaiMonoTC-Light.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: WenKaiMonoTCRegular;
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url('/fonts/LXGWWenKaiMonoTC-Regular.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: WenKaiMonoTCBold;
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url('/fonts/LXGWWenKaiMonoTC-Bold.woff2') format('woff2');
+}
+
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-geist-sans);
 	--font-mono: var(--font-geist-mono);
+	--font-WenKaiMonoTCLight: 'WenKaiMonoTCLight', sans-serif;
+	--font-WenKaiMonoTCRegular: 'WenKaiMonoTCRegular', sans-serif;
+	--font-WenKaiMonoTCBold: 'WenKaiMonoTCBold', sans-serif;
+	--breakpoint-desktop: 440px;
 }
 
 @media (prefers-color-scheme: dark) {

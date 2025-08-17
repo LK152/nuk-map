@@ -1,4 +1,4 @@
-import { useDestStore, useScaleStore } from '@app/states';
+import { useDestStore, useScaleStore } from '../../../lib/states';
 import { dorms } from '@data/locations';
 import { Marker, Popup } from 'react-leaflet';
 import { Button } from 'primereact/button';

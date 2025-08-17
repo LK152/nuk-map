@@ -14,10 +14,7 @@ const SpotsAutocomplete = ({
 }) => {
 	const { data: spots, error } = useSWR<spotDataType[]>(
 		'http://localhost:8888/spots',
-		fetcher,
-		{
-			refreshInterval: 10000,
-		}
+		fetcher
 	);
 
 	const [focus, setFocus] = useState<boolean>(false);
@@ -43,12 +40,13 @@ const SpotsAutocomplete = ({
 
 	return (
 		<div
-			className={`fixed rounded-full  top-8 right-[50vw] translate-x-[50%] z-[1000] bg-white flex items-center ${
+			className={`fixed rounded-full top-8 left-5 desktop:left-[50vw] desktop:translate-x-[-50%] z-[990] desktop:w-[400px] bg-white ${
 				focus ? 'opacity-100' : 'opacity-50'
 			} ${error && 'invisible'}`}
 		>
 			<AutoComplete
-				inputClassName='caret-black text-black w-[400px] p-3 text-lg rounded-full'
+				aria-label='Spots Search'
+				inputClassName='caret-black text-black desktop:w-[400px] p-3 text-lg rounded-full'
 				panelClassName='bg-white'
 				value={selectedSpot}
 				suggestions={filteredSpots}

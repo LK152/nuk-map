@@ -31,6 +31,7 @@ import {
 	aed,
 	atm,
 	soccer,
+    law,
 } from '@components/Map/mapIcons';
 import { LatLngTuple, Icon } from 'leaflet';
 
@@ -120,8 +121,14 @@ const locations: locationsType[] = [
 	},
 	{
 		name: '管理學院',
-		coord: [22.732534910380707, 120.28753053179393],
+		coord: [22.73262769939605, 120.28807790676854],
 		icon: business,
+		type: 'building',
+	},
+    {
+		name: '法學院',
+		coord: [22.73257569309429, 120.2869073231739],
+		icon: law,
 		type: 'building',
 	},
 	{

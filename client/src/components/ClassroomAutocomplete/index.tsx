@@ -14,10 +14,7 @@ const SpotsAutocomplete = ({
 }) => {
 	const { data: spots, error } = useSWR<spotDataType[]>(
 		'http://localhost:8888/spots',
-		fetcher,
-		{
-			refreshInterval: 10000,
-		}
+		fetcher
 	);
 	const classrooms =
 		spots?.flatMap((spot) => spot.classrooms.map((c) => c.name)) ?? [];
@@ -49,6 +46,7 @@ const SpotsAutocomplete = ({
 	return (
 		<div className={`w-full ${error ? 'invisible' : ''}`}>
 			<AutoComplete
+				aria-label='Classroom Search'
 				inputClassName='w-full caret-black text-black p-4 text-lg border-1 border rounded'
 				panelClassName='bg-white'
 				value={searchVal}
@@ -61,7 +59,9 @@ const SpotsAutocomplete = ({
 					setSearchVal(e.value);
 					const foundSpot =
 						spots?.find((obj) =>
-							obj.classrooms.find((classroom) => classroom.name === e.value)
+							obj.classrooms.find(
+								(classroom) => classroom.name === e.value
+							)
 						) ?? null;
 					onSelect(foundSpot);
 				}}

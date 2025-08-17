@@ -4,7 +4,7 @@ import Switch from 'react-switch';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import ClassroomAutocomplete from '../ClassroomAutocomplete';
-import { useNavStore, useSwStore } from '@app/states';
+import { useNavStore, useSwStore } from '../../lib/states';
 
 const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
 	const {
@@ -30,7 +30,7 @@ const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
 		<>
 			<div
 				onClick={toggleClick}
-				className={`fixed top-6 right-6 w-14 h-14 rounded-full bg-white z-[1001] flex flex-col items-center justify-center cursor-pointer menuButton ${
+				className={`fixed top-7 right-2 w-14 h-14 rounded-full bg-transparent desktop:bg-white z-[1000] flex flex-col items-center justify-center cursor-pointer menuButton ${
 					menuOpen ? 'opacity-100' : 'opacity-50'
 				}`}
 			>
@@ -51,11 +51,11 @@ const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
 				></div>
 			</div>
 			<div
-				className={`fixed flex items-center flex-col bg-white top-0 right-0 w-[90vw] max-w-[320px] h-[100vh] z-[1000] opacity-80 ${
+				className={`fixed flex items-center flex-col bg-white top-0 right-0 w-full desktop:w-[320px] h-[100vh] z-[999] overflow-scroll desktop:overflow-hidden opacity-80 ${
 					menuOpen ? 'sidebarClicked' : 'sidebar'
 				}`}
 			>
-				<p className='text-black font-semibold text-2xl mt-[100px] mb-4 self-start ml-8'>
+				<p className='text-black font-semibold desktop:text-2xl mt-12 desktop:mt-[100px] mb-4 self-start ml-8'>
 					教室到底在哪...
 				</p>
 				<div className='flex justify-center w-full mb-6'>
@@ -63,21 +63,20 @@ const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
 						<ClassroomAutocomplete onSelect={jumpTo} />
 					</div>
 				</div>
-				<p className='text-black font-semibold text-2xl mb-4 self-start ml-8'>
+				<p className='text-black font-semibold desktop:text-2xl mb-2 self-start ml-8'>
 					導航模式
 				</p>
-				<div className='flex items-center justify-between w-[80%] my-3'>
+				<div className='flex items-center justify-between w-[80%] my-4'>
 					<p className='text-black text-lg'>導航</p>
 					<Switch
 						checked={navMode}
 						onChange={() => setNavMode(!navMode)}
 					/>
 				</div>
-				<p className='text-black font-semibold text-2xl mb-4 self-start ml-8'></p>
-				<p className='text-black font-semibold text-2xl mb-4 self-start ml-8'>
+				<p className='text-black font-semibold desktop:text-2xl mb-2 self-start ml-8'>
 					想看什麼？
 				</p>
-				<div className='flex items-center justify-between w-[80%] my-3'>
+				<div className='flex items-center justify-between w-[80%] my-4'>
 					<p className='text-black text-lg'>顯示大樓</p>
 					<Switch
 						checked={buildingSW}
@@ -120,38 +119,35 @@ const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
 						onChange={() => toggle('architectSW')}
 					/>
 				</div>
-				<div className='absolute bottom-10'>
+				<div className='mt-auto p-10'>
 					<Button
 						label='關於我們'
 						onClick={() => setAboutDialog(true)}
 					/>
 					<Dialog
-						header='關於我們'
-						className='w-[50%] bg-white rounded p-8'
+						className='w-[30%] bg-white rounded p-8'
 						visible={aboutDialog}
-						onHide={() => {
-							if (!aboutDialog) return;
-							setAboutDialog(false);
-						}}
+						onHide={() => setAboutDialog(false)}
+						dismissableMask
 					>
-						<pre className="font-mono text-sm whitespace-pre-wrap">
-							{`FENG   | 後端勇者    | 力量: ★★★   | 智慧: ★★★★★ | 技能: 程式魔法、資料結構斬擊
-							  貓貓   | UI/UX魔法師 | 美感: ★★★★★ | 技術: ★★★   | 技能: 介面附魔、色彩調和
-							  LK     | 前端刺客    | 速度: ★★★★  | 靈活: ★★★★★ | 技能: 動畫連擊、互動暗殺
-							  JERRY  | 躺分大魔王  | 防禦: ★★★★  | 臉皮: ★★★★  | 技能: 輔助回血、戰場奶媽`}
-								</pre>
-
-						<p className='m-0'>
-							Lorem ipsum dolor sit amet, consectetur adipiscing
-							elit, sed do eiusmod tempor incididunt ut labore et
-							dolore magna aliqua. Ut enim ad minim veniam, quis
-							nostrud exercitation ullamco laboris nisi ut aliquip
-							ex ea commodo consequat. Duis aute irure dolor in
-							reprehenderit in voluptate velit esse cillum dolore
-							eu fugiat nulla pariatur. Excepteur sint occaecat
-							cupidatat non proident, sunt in culpa qui officia
-							deserunt mollit anim id est laborum.
-						</p>
+						<div className='flex flex-col items-center'>
+							<h1 className='text-4xl font-WenKaiMonoTCBold'>
+								關於我們
+							</h1>
+							<p className='text-xl my-8 font-WenKaiMonoTCRegular p-4'>
+								LK | 前端刺客 | 速度: ★★★★ | 靈活: ★★★★★ | 技能:
+								動畫連擊、互動暗殺
+								<br />
+								FENG | 後端勇者 | 力量: ★★★ | 智慧: ★★★★★ |
+								技能: 程式魔法、資料結構斬擊
+								<br />
+								貓貓 | UI/UX魔法師 | 美感: ★★★★★ | 技術: ★★★ |
+								技能: 介面附魔、色彩調和
+								<br />
+								JERRY | 大魔王 | 防禦: ★★★★ | 臉皮: ★★★★ | 技能:
+								輔助回血、戰場奶媽
+							</p>
+						</div>
 					</Dialog>
 				</div>
 			</div>

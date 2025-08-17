@@ -2,7 +2,7 @@ import fetchUbike from '@func/UbikeInfo';
 import { useEffect, useState } from 'react';
 import { Marker, Popup } from 'react-leaflet';
 import { ubike } from '../mapIcons';
-import { useDestStore, useScaleStore, useSwStore } from '@app/states';
+import { useDestStore, useScaleStore, useSwStore } from '../../../lib/states';
 import { coordExists } from '@func/Routing';
 import { Button } from 'primereact/button';
 

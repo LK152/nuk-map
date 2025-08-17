@@ -8,7 +8,7 @@ import RoutingMachine from '@func/Routing';
 import { LatLngTuple } from 'leaflet';
 import SpotsAutocomplete from '../SpotsAutocomplete';
 import { CircleMarker, useMapEvents } from 'react-leaflet';
-import { useDestStore, useNavStore, useScaleStore } from '@app/states';
+import { useDestStore, useNavStore, useScaleStore } from '../../lib/states';
 import L from 'leaflet';
 import Dorms from './markers/Dorms';
 import Courts from './markers/Courts';
@@ -110,6 +110,7 @@ const Map = () => {
 				ref={(ref) => {
 					if (ref) mapRef.current = ref;
 				}}
+				zoomControl={window.innerWidth >= 440 ? true : false}
 			>
 				<MapComponent />
 				<SpotsAutocomplete onSelect={jumpTo} />
@@ -168,8 +169,7 @@ const Map = () => {
 				<ConvenienceStores />
 				<Ubikes />
 				<AEDs />
-                <ATMs />
-                
+				<ATMs />
 			</MapContainer>
 
 			{dest.length > 0 && (

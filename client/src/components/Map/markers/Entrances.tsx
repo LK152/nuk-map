@@ -1,4 +1,4 @@
-import { useDestStore, useScaleStore, useSwStore } from '@app/states';
+import { useDestStore, useScaleStore, useSwStore } from '../../../lib/states';
 import { motorcycleEntrances } from '@data/locations';
 import { coordExists } from '@func/Routing';
 import { Button } from 'primereact/button';
