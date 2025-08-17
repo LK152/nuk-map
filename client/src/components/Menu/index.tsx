@@ -2,9 +2,9 @@ import './menu.css';
 import { useState } from 'react';
 import Switch from 'react-switch';
 import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
 import ClassroomAutocomplete from '../ClassroomAutocomplete';
 import { useNavStore, useSwStore } from '../../lib/states';
+import About from '@components/About';
 
 const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
 	const {
@@ -122,35 +122,14 @@ const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
 				<div className='mt-auto p-10'>
 					<Button
 						label='關於我們'
-						onClick={() => setAboutDialog(true)}
+						onClick={() => {
+							if (window.innerWidth <= 440) setMenuOpen(false);
+							setAboutDialog(true);
+						}}
 					/>
-					<Dialog
-						className='w-[30%] bg-white rounded p-8'
-						visible={aboutDialog}
-						onHide={() => setAboutDialog(false)}
-						dismissableMask
-					>
-						<div className='flex flex-col items-center'>
-							<h1 className='text-4xl font-WenKaiMonoTCBold'>
-								關於我們
-							</h1>
-							<p className='text-xl my-8 font-WenKaiMonoTCRegular p-4'>
-								LK | 前端刺客 | 速度: ★★★★ | 靈活: ★★★★★ | 技能:
-								動畫連擊、互動暗殺
-								<br />
-								FENG | 後端勇者 | 力量: ★★★ | 智慧: ★★★★★ |
-								技能: 程式魔法、資料結構斬擊
-								<br />
-								貓貓 | UI/UX魔法師 | 美感: ★★★★★ | 技術: ★★★ |
-								技能: 介面附魔、色彩調和
-								<br />
-								JERRY | 大魔王 | 防禦: ★★★★ | 臉皮: ★★★★ | 技能:
-								輔助回血、戰場奶媽
-							</p>
-						</div>
-					</Dialog>
 				</div>
 			</div>
+			<About aboutDialog={aboutDialog} setAboutDialog={setAboutDialog} setMenuOpen={setMenuOpen} />
 		</>
 	);
 };
