@@ -119,7 +119,7 @@ const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
 						onChange={() => toggle('architectSW')}
 					/>
 				</div>
-				<div className='mt-auto p-10'>
+				<div className='text-black mt-auto p-10'>
 					<Button
 						label='關於我們'
 						onClick={() => {

@@ -22,8 +22,8 @@ const About = ({
 			showCloseIcon={false}
 		>
 			<div className='flex flex-col items-center'>
-				<h1 className='text-4xl font-WenKaiMonoTCBold'>關於我們</h1>
-				<p className='text-xl my-8 font-WenKaiMonoTCRegular p-4'>
+				<h1 className='text-black text-4xl font-WenKaiMonoTCBold'>關於我們</h1>
+				<p className='text-black text-xl my-8 font-WenKaiMonoTCRegular p-4'>
 					LK | 前端刺客 | 速度: ★★★★ | 靈活: ★★★★★ | 技能:
 					動畫連擊、互動暗殺
 					<br />
