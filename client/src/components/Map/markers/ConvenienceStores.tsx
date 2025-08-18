@@ -19,7 +19,7 @@ const ConvenienceStores = () => {
 		const openInt = parseInt(openTime.split(':')[0], 10);
 		const closeInt = parseInt(closingTime.split(':')[0], 10);
 
-		if (openInt < hour && hour > closeInt) return true;
+		if (openInt < hour && hour < closeInt) return true;
 		return false;
 	};
 
