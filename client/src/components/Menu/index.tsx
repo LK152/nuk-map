@@ -30,7 +30,7 @@ const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
 		<>
 			<div
 				onClick={toggleClick}
-				className={`fixed top-7 right-2 w-14 h-14 rounded-full bg-transparent desktop:bg-white z-[1000] flex flex-col items-center justify-center cursor-pointer menuButton ${
+				className={`fixed top-7 right-2 desktop:right-7 w-14 h-14 rounded-full bg-transparent desktop:bg-white z-[1000] flex flex-col items-center justify-center cursor-pointer menuButton ${
 					menuOpen ? 'opacity-100' : 'opacity-50'
 				}`}
 			>
