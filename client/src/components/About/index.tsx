@@ -46,6 +46,10 @@ const About = ({
 						成員
 					</h2>
 					劉經晢 徐御丰 吳俊霆 陳彥融
+					<h2 className='text-black text-2xl font-WenKaiMonoTCBold mt-2'>
+						意見反饋信箱
+					</h2>
+						ctld@nuk.edu.tw
 				</p>
 			</div>
 		</Dialog>
