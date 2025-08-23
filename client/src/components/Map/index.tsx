@@ -146,7 +146,7 @@ const Map = () => {
 				)}
 				<TileLayer
 					attribution='&copy; MapTiler & OpenStreetMap contributors'
-					url='https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=eogDeLZuq3Kl0LRIL5JD'
+					url='https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=agFTmodzd3hE3L2oo0rn'
 				/>
 
 				{freePoints.map((p, i) => (
