@@ -574,6 +574,17 @@ const atm = (scale: number) => {
 	return icon;
 };
 
+const current = (scale: number) => {
+	const icon: Icon = L.icon({
+		iconUrl: '/leaflet/navigation.png',
+		iconSize: [30 * scale, 30 * scale],
+		iconAnchor: [15 * scale, 30 * scale],
+		popupAnchor: [0, -30 * scale],
+	});
+
+	return icon;
+};
+
 export {
 	ubike,
 	parking,
@@ -610,4 +621,5 @@ export {
 	familymart,
 	aed,
 	atm,
+	current,
 };

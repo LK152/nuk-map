@@ -5,8 +5,15 @@ import { Button } from 'primereact/button';
 import ClassroomAutocomplete from '../ClassroomAutocomplete';
 import { useNavStore, useSwStore } from '../../lib/states';
 import About from '@components/About';
+import Image from 'next/image';
 
-const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
+const Menu = ({
+	jumpTo,
+	curr,
+}: {
+	jumpTo: (spot: spotDataType | null) => void;
+	curr: [number, number] | null;
+}) => {
 	const {
 		entranceSW,
 		courtSW,
@@ -119,7 +126,30 @@ const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
 						onChange={() => toggle('architectSW')}
 					/>
 				</div>
-				<div className='text-black mt-auto p-10'>
+				<div className='text-black mt-auto p-10 flex flex-col items-center'>
+					{curr && (
+						<button
+							onClick={() =>
+								jumpTo({
+                                    lat: curr[0], lng: curr[1],
+                                    id: '',
+                                    name: '',
+                                    description: '',
+                                    image: '',
+                                    classrooms: []
+                                })
+							}
+							className='cursor-pointer pb-2'
+						>
+							<Image
+								width={30}
+								height={30}
+								src='/leaflet/target.png'
+								alt='Current Position Button'
+							/>
+						</button>
+					)}
+
 					<Button
 						label='關於我們'
 						onClick={() => {
@@ -129,7 +159,11 @@ const Menu = ({ jumpTo }: { jumpTo: (spot: spotDataType | null) => void }) => {
 					/>
 				</div>
 			</div>
-			<About aboutDialog={aboutDialog} setAboutDialog={setAboutDialog} setMenuOpen={setMenuOpen} />
+			<About
+				aboutDialog={aboutDialog}
+				setAboutDialog={setAboutDialog}
+				setMenuOpen={setMenuOpen}
+			/>
 		</>
 	);
 };
