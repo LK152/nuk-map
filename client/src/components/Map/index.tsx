@@ -1,7 +1,7 @@
 'use client';
 
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
 import { useEffect, useRef, useState } from 'react';
 import Menu from '../Menu';
 import RoutingMachine from '@func/Routing';
@@ -18,6 +18,7 @@ import Ubikes from './markers/Ubikes';
 import Buildings from './markers/Buildings';
 import AEDs from './markers/AEDs';
 import ATMs from './markers/ATMs';
+import { current } from './mapIcons';
 
 const Map = () => {
 	const mapRef = useRef<L.Map | null>(null);
@@ -27,6 +28,19 @@ const Map = () => {
 	const { scale, setScale } = useScaleStore();
 
 	const [freePoints, setFreePoints] = useState<LatLngTuple[]>([]);
+	const [curr, setCurr] = useState<[number, number] | null>(null);
+
+	useEffect(() => {
+		if (!navigator.geolocation) return;
+
+		const watcher = navigator.geolocation.watchPosition(
+			(pos) => setCurr([pos.coords.latitude, pos.coords.longitude]),
+			(err) => console.log(err),
+			{ enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
+		);
+
+		return () => navigator.geolocation.clearWatch(watcher);
+	});
 
 	useEffect(() => {
 		if (!navMode) {
@@ -101,7 +115,7 @@ const Map = () => {
 
 	return (
 		<div className='w-full h-[100vh]'>
-			<Menu jumpTo={jumpTo} />
+			<Menu jumpTo={jumpTo} curr={curr} />
 			<MapContainer
 				center={[22.73443796905454, 120.28443432939359]}
 				minZoom={15}
@@ -170,6 +184,10 @@ const Map = () => {
 				<Ubikes />
 				<AEDs />
 				<ATMs />
+
+				{curr && (
+					<Marker position={curr} icon={current(scale)}></Marker>
+				)}
 			</MapContainer>
 
 			{dest.length > 0 && (
