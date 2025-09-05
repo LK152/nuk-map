@@ -61,7 +61,7 @@ const Menu = ({
 					menuOpen ? 'sidebarClicked' : 'sidebar'
 				}`}
 			>
-				<p className='text-black font-semibold desktop:text-2xl mb-2 self-start ml-8'>
+				<p className='text-black font-semibold desktop:text-2xl mt-14 mb-2 self-start ml-8'>
 					導航模式
 				</p>
 				<div className='flex items-center justify-between w-[80%] my-4'>
