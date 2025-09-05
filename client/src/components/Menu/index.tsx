@@ -2,7 +2,6 @@ import './menu.css';
 import { useState } from 'react';
 import Switch from 'react-switch';
 import { Button } from 'primereact/button';
-import ClassroomAutocomplete from '../ClassroomAutocomplete';
 import { useNavStore, useSwStore } from '../../lib/states';
 import About from '@components/About';
 import Image from 'next/image';
@@ -62,14 +61,6 @@ const Menu = ({
 					menuOpen ? 'sidebarClicked' : 'sidebar'
 				}`}
 			>
-				<p className='text-black font-semibold desktop:text-2xl mt-12 desktop:mt-[100px] mb-4 self-start ml-8'>
-					教室到底在哪...
-				</p>
-				<div className='flex justify-center w-full mb-6'>
-					<div className='w-[80%]'>
-						<ClassroomAutocomplete onSelect={jumpTo} />
-					</div>
-				</div>
 				<p className='text-black font-semibold desktop:text-2xl mb-2 self-start ml-8'>
 					導航模式
 				</p>
