@@ -1,0 +1,14 @@
+services: 
+  client: 
+    container_name: nuk-map-client
+    image: lk152/nuk-map-client:latest
+    ports: 
+      - 3000:3000
+    restart: unless-stopped
+
+  server: 
+    container_name: nuk-map-server
+    image: lk152/nuk-map-server:latest
+    ports: 
+      - 8888:8888
+    restart: unless-stopped
