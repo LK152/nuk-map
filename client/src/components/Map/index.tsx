@@ -144,7 +144,7 @@ const Map = () => {
 			<Menu jumpTo={jumpTo} curr={curr} />
 			<MapContainer
 				center={[22.73443796905454, 120.28443432939359]}
-				minZoom={15}
+				minZoom={10}
 				zoom={16}
 				style={{ height: '100%', width: '100%' }}
 				ref={(ref) => {
