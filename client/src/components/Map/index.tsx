@@ -29,6 +29,7 @@ const Map = () => {
 
 	const [freePoints, setFreePoints] = useState<LatLngTuple[]>([]);
 	const [curr, setCurr] = useState<[number, number] | null>(null);
+	const [insertedStart, setInsertedStart] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (!navigator.geolocation) return;
@@ -46,6 +47,7 @@ const Map = () => {
 		if (!navMode) {
 			setDest([]);
 			setFreePoints([]);
+			setInsertedStart(false);
 		}
 	}, [navMode, setDest]);
 
@@ -54,6 +56,29 @@ const Map = () => {
 			setNavMode(true);
 		}
 	}, [dest, navMode, setNavMode]);
+
+	useEffect(() => {
+		if (!navMode) return;
+		if (insertedStart) return;
+		if (!curr) return;
+
+		const coord: LatLngTuple = [curr[0], curr[1]];
+
+		if (coordExists(freePoints, coord)) {
+			setInsertedStart(true);
+			return;
+		}
+
+		if (freePoints.length >= 3) {
+			setFreePoints((prev) => [...prev.slice(1), coord]);
+			setDest([...dest.slice(1), coord]);
+		} else {
+			setFreePoints((prev) => [...prev, coord]);
+			addDest(coord);
+		}
+
+		setInsertedStart(true);
+	}, [navMode, curr, insertedStart, freePoints, dest, addDest, setDest]);
 
 	const MapComponent = () => {
 		const map = useMap();
@@ -81,6 +106,7 @@ const Map = () => {
 		setDest([]);
 		setFreePoints([]);
 		setNavMode(false);
+		setInsertedStart(false);
 	};
 
 	const coordExists = (arr: LatLngTuple[], target: LatLngTuple): boolean => {
